@@ -1,0 +1,63 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Event_code')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-event_code" data-rule="required" class="form-control" name="row[event_code]" type="text" value="{$row.event_code|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Event_note')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-event_note" data-rule="required" class="form-control" name="row[event_note]" type="text" value="{$row.event_note|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Openid_limit')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-openid_limit"  class="form-control" name="row[openid_limit]" type="number" value="{$row.openid_limit|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Day_limit')}:</label>
+        
+		<div class="radio col-xs-12 col-sm-8">
+		  <label>
+		    <input type="radio" name="row[day_limit]" id="day_limit1" value="1" {if $row.day_limit == 1}checked{/if}>
+		    {:__('Yes')}
+		  </label>
+		  <label>
+		    <input type="radio" name="row[day_limit]" id="day_limit0" value="0" {if $row.day_limit == 0}checked{/if}>
+		    {:__('No')}
+		  </label>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Grand_type')}:</label>
+        <div class="radio col-xs-12 col-sm-8">
+		  <label>
+		    <input type="radio" name="row[grand_type]" id="grand_type0" value="0" {if $row.grand_type == 0}checked{/if}>
+		    {:__('Behavioral Integral')}
+		  </label>
+		  <label>
+		    <input type="radio" name="row[grand_type]" id="grand_type1" value="1" {if $row.grand_type == 1}checked{/if}>
+		    {:__('Custom Integral')}
+		  </label>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Credit_amount')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-credit_amount" data-rule="required" class="form-control" name="row[credit_amount]" type="number" value="{$row.credit_amount|htmlentities}">
+        </div>
+    </div>
+    
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

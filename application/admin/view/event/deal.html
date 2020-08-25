@@ -1,0 +1,65 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+	
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {$row.title}
+		</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Username')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {$row.username}
+		</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Addtime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {$row.addtime}
+		</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+		{$row.content}
+		</span>
+        </div>
+    </div>
+	
+    {if isset($row.imgs) && $row.imgs}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Img')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+            {foreach $row.imgs as $img}
+				{if $img}
+			    <a href="{$img}" target="_blank"><img src="{$img}"></a>
+				{/if}
+			{/foreach}
+		</span>
+        </div>
+    </div>
+    {/if}
+    
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Deal_content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+        <textarea name="row[deal_content]" id="deal_content" cols="45" rows="3" style="width:100%;height:200px"></textarea>
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,257 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="文件上传，图片上传" />
+<title>视频上传</title>
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/libs/webuploader/upload/css/demo.css" />
+<link rel="stylesheet" type="text/css" href="/assets/libs/webuploader/upload/css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="/assets/libs/webuploader/upload/css/style.css">
+<style>
+.demo{min-width:360px;margin:30px auto;padding:10px 20px}
+.demo h3{line-height:40px; font-weight: bold;}
+.file-item{float: left; position: relative; width: 110px;height: 110px; margin: 0 20px 20px 0; padding: 4px;}
+.file-item .info{overflow: hidden;}
+.uploader-list{width: 100%; overflow: hidden;}
+</style>
+</head>
+<body>
+<div class="container">
+    <header style="display: none">
+        <div class="row">
+            <div class="col-md-3 col-xs-12"><h1 class="logo"><a href="http://www.helloweba.com" title="返回helloweba首页">helloweba</a></h1></div>
+            <div class="col-md-9 text-right"><!--<script src="/js/ad_js/demo_topad.js" type="text/javascript"></script>--></div>
+        </div>
+    </header>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">视频上传</label>
+    </div>
+
+    <br>
+    <div class="row main">
+        <div class="demo">
+            <div id="uploadfile">
+                <!--用来存放文件信息-->
+                <div id="thelist" class="uploader-list"></div>
+                <div class="form-group form-inline">
+                    <div id="picker" style="float:left">选择文件</div> &nbsp;
+                    <button id="ctlBtn" class="btn btn-default" style="padding:8px 15px;">开始上传</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="demo" style="display: none">
+            <h3>2、图片上传</h3>
+            <div id="uploadimg">
+                <div id="fileList" class="uploader-list"></div>
+                <div id="imgPicker">选择图片</div>
+            </div>
+        </div>
+        <div class="demo" style="display: none">
+            <h3>3、高级上传</h3>
+            <div id="uploader">
+                <div class="queueList">
+                    <div id="dndArea" class="placeholder">
+                        <div id="filePicker"></div>
+                        <p>或将照片拖到这里，单次最多可选10张</p>
+                    </div>
+                </div>
+                <div class="statusBar" style="display:none;">
+                    <div class="progress">
+                        <span class="text">0%</span>
+                        <span class="percentage"></span>
+                    </div><div class="info"></div>
+                    <div class="btns">
+                        <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br>
+    <div class="col-md-9 col-xs-12"><h1>允许上传的档案格式： avi wmv mov mpg mpe mpeg 3gp flv mp4 m4v档案容量的上传限制： 2048 MB。 禁止上传有版权或被禁止的不适当档案。</h1></div>
+</div>
+
+<script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/libs/webuploader/upload/js/webuploader.min.js"></script>
+<script type="text/javascript" src="/assets/libs/webuploader/upload/js/upload.js"></script>
+<script>
+$(function(){
+    var $list = $('#thelist'),
+        $btn = $('#ctlBtn');
+
+    var uploader = WebUploader.create({
+      resize: false, // 不压缩image
+      swf: 'js/uploader.swf', // swf文件路径
+      server: "/admin/video/add_post", // 文件接收服务端。
+      pick: '#picker', // 选择文件的按钮。可选
+      chunked: true, //是否要分片处理大文件上传
+      chunkSize:5*1024*1024, //分片上传，每片2M，默认是5M
+      //auto: false //选择文件后是否自动上传
+     chunkRetry : 10, //如果某个分片由于网络问题出错，允许自动重传次数
+     prepareNextFile:true,
+      //runtimeOrder: 'html5,flash',
+      accept: {
+        title: 'Video',
+        extensions: 'avi,wmv,mov,mpg,mpe,mpeg,3gp,flv,mp4,m4v',
+        mimeTypes: 'video/*'
+      },
+      fileNumLimit:5,//验证文件总数量, 超出则不允许加入队列
+      fileSizeLimit:5120*1024*1024,//验证文件总大小是否超出限制, 超出则不允许加入队列_5G
+      threads:10//上传并发数。允许同时最大上传进程数
+    });
+    // 当有文件被添加进队列的时候
+    uploader.on( 'fileQueued', function( file ) {
+        $list.append( '<div id="' + file.id + '" class="item">' +
+            '<h4 class="info">' + file.name + '</h4>' +
+            '<p class="state">等待上传...</p>' +
+        '</div>' );
+    });
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on( 'uploadProgress', function( file, percentage ) {
+        var $li = $( '#'+file.id ),
+            $percent = $li.find('.progress .progress-bar');
+
+        // 避免重复创建
+        if ( !$percent.length ) {
+            $percent = $('<div class="progress progress-striped active">' +
+              '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+              '</div>' +
+            '</div>').appendTo( $li ).find('.progress-bar');
+        }
+
+        $li.find('p.state').text('上传中');
+
+        $percent.css( 'width', percentage * 100 + '%' );
+    });
+    // 文件上传成功
+    uploader.on( 'uploadSuccess', function( file ) {
+        $( '#'+file.id ).find('p.state').text('已上传');
+
+    });
+
+    // 文件上传失败，显示上传出错
+    uploader.on( 'uploadError', function( file ) {
+        $( '#'+file.id ).find('p.state').text('上传出错');
+    });
+    // 完成上传完
+    uploader.on( 'uploadComplete', function( file ) {
+        $( '#'+file.id ).find('.progress').fadeOut();console.log(file);
+    });
+
+    $btn.on('click', function () {
+            if ($(this).hasClass('disabled')) {
+                return false;
+            }
+            uploader.upload();
+            // if (state === 'ready') {
+            //     uploader.upload();
+            // } else if (state === 'paused') {
+            //     uploader.upload();
+            // } else if (state === 'uploading') {
+            //     uploader.stop();
+            // }
+        });
+
+});
+
+//上传图片
+ // 初始化Web Uploader
+var uploader = WebUploader.create({
+
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: 'js/Uploader.swf',
+
+    // 文件接收服务端。
+    server: "/admin/video/add_post",
+
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#imgPicker',
+
+    // 只允许选择图片文件。
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+
+// 当有文件添加进来的时候
+uploader.on( 'fileQueued', function( file ) {
+    var $list = $("#fileList"),
+        $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '<div class="info">' + file.name + '</div>' +
+            '</div>'
+            ),
+        $img = $li.find('img');
+
+
+    // $list为容器jQuery实例
+    $list.append( $li );
+
+    // 创建缩略图
+    // 如果为非图片文件，可以不用调用此方法。
+    // thumbnailWidth x thumbnailHeight 为 100 x 100
+    uploader.makeThumb( file, function( error, src ) {
+        if ( error ) {
+            $img.replaceWith('<span>不能预览</span>');
+            return;
+        }
+
+        $img.attr( 'src', src );
+    }, 100, 100 );
+});
+// 文件上传过程中创建进度条实时显示。
+uploader.on( 'uploadProgress', function( file, percentage ) {
+    var $li = $( '#'+file.id ),
+        $percent = $li.find('.progress span');
+
+    // 避免重复创建
+    if ( !$percent.length ) {
+        $percent = $('<p class="progress"><span></span></p>')
+                .appendTo( $li )
+                .find('span');
+    }
+
+    $percent.css( 'width', percentage * 100 + '%' );
+});
+
+// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+uploader.on( 'uploadSuccess', function( file ) {
+    $( '#'+file.id ).addClass('upload-state-done');
+});
+
+// 文件上传失败，显示上传出错。
+uploader.on( 'uploadError', function( file ) {
+    var $li = $( '#'+file.id ),
+        $error = $li.find('div.error');
+
+    // 避免重复创建
+    if ( !$error.length ) {
+        $error = $('<div class="error"></div>').appendTo( $li );
+    }
+
+    $error.text('上传失败');
+});
+
+// 完成上传完了，成功或者失败，先删除进度条。
+uploader.on( 'uploadComplete', function( file ) {
+    $( '#'+file.id ).find('.progress').remove();
+});
+
+</script>
+</body>
+</html>

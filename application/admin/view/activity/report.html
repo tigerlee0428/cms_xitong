@@ -1,0 +1,146 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+	
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs nav-cont" role="tablist">
+	  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">{:__('basic')}</a></li>
+	  <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">{:__('detail')}</a></li>
+	</ul>
+	
+	  <!-- Tab panes -->
+  	<div class="tab-content con-cont">
+    <div role="tabpanel" class="tab-pane fade in active" id="home">
+	
+	
+    
+    
+    <div class="form-group">
+        <label class="control-label col-xs-4 col-sm-2">{:__('Servers')}:</label>
+        <div class="col-xs-2 col-sm-2">
+            <input id="c-servers" class="form-control"  name="row[servers]" type="text" value="">
+        </div>
+        <label class="control-label col-xs-4 col-sm-2">{:__('ActivityVideo')}:</label>
+        <div class="col-xs-4 col-sm-4">
+            <div class="input-group">
+                <input id="c-video" class="form-control" size="20"  type="text" value="">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="fachoose-video" class="btn btn-primary fachoosevideo" data-input-id="c-video"  data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+            </div>
+            <ul class="row list-inline plupload-preview" id="pc-video"></ul>
+        </div>
+    </div>
+  
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-images" class="form-control" size="50" name="row[images]" type="text" value="">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="plupload-images" class="btn btn-danger plupload cropper" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-images"></span>
+            </div>
+            <ul class="row list-inline plupload-preview" id="p-images"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('ReportContent')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-content" data-rule="required" name="row[content]" cols="45" rows="5" style="width:100%;height:400px"></textarea>
+        </div>
+    </div>
+    
+    
+   </div>
+	
+	
+	<div role="tabpanel" class="tab-pane fade" id="detail">
+<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {$row.title}
+		</span>
+        </div>
+    </div>
+    {if $row.brief}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Brief')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+		{$row.brief}
+		</span>
+        </div>
+    </div>
+    {/if}
+    {if $row.address}
+	<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+		{$row.address}
+		</span>
+        </div>
+    </div>
+    {/if}
+	<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('BaseInfo')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+		<span class="label label-danger">{$row.contacter}</span>&nbsp;&nbsp;
+		<span class="label label-success">{$row.phone}</span>&nbsp;&nbsp;
+		</span>
+        </div>
+    </div>
+    
+    {if $row.group_name}
+	<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Group_name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+		{$row.group_name}
+		</span>
+        </div>
+    </div>
+    {/if}
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Activity_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {$row.start_time|date='Y-m-d H:i:s',###}&nbsp;&nbsp;至&nbsp;&nbsp;{$row.end_time|date='Y-m-d H:i:s',###}
+		</span>
+        </div>
+    </div>
+    {if isset($row.images) && $row.images}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        <a href="{$row.images}" target="_blank"><img src="{$row.images}"></a>
+		</span>
+        </div>
+    </div>
+    {/if}
+    
+    {if isset($row.content)}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8 ">
+		<span class="group-text">
+        {$row.content}
+		</span>
+        </div>
+    </div>
+    {/if}
+    </div>
+    </div>   
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

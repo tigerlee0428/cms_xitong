@@ -1,0 +1,136 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-name" class="form-control" name="row[name]" type="text" value="{$row.name|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Shortname')}:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-shortname" class="form-control" name="row[shortname]" type="text" value="{$row.shortname|htmlentities}">
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Mergename')}</span>:</label>
+        <div class="col-xs-12 col-sm-6">
+        <div class="input-group">
+            <input id="c-mergename" class="form-control"  name="row[mergename]" type="text" value="{$row.mergename|htmlentities}" >
+            <div class="input-group-addon no-border no-padding">
+                <i class="fa fa-map-marker map-address" data-toggle="addresspicker" data-input-id="c-mergename" data-lat-id="c-lat" data-lng-id="c-lng"></i>
+            </div>
+        </div>
+        </div>
+    </div>
+	<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Contacter')}:</label>
+        <div class="col-xs-4 col-sm-3">
+            <input id="c-contacter" class="form-control" name="row[contacter]" type="text" value="{$row.contacter|htmlentities}">
+        </div>
+    </div>
+    {if $row.level == 3}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('MasterZX')}:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-master" class="form-control" name="row[master]" type="text" value="{$row.master|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $row.level == 4}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('MasterS')}:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-master" class="form-control" name="row[master]" type="text" value="{$row.master|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    {if $row.level == 5}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('MasterZ')}:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-master" class="form-control" name="row[master]" type="text" value="{$row.master|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Member')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-member" class="form-control" rows="5" name="row[member]" cols="50">{$row.member|htmlentities}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Img')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-img" class="form-control" size="50" name="row[img]" type="text" value="{$row.img}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="plupload-img" class="btn btn-danger plupload cropper" data-input-id="c-img" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-img"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-img" class="btn btn-primary fachoose" data-input-id="c-img" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-img"></span>
+            </div>
+            <ul class="row list-inline plupload-preview" id="p-img"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Lng')}:</label>
+        <div class="col-xs-4 col-sm-3">
+            <input id="c-lng" class="form-control" name="row[lng]" type="text" value="{$row.lng|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Lat')}:</label>
+        <div class="col-xs-4 col-sm-3">
+            <input id="c-lat" class="form-control" name="row[lat]" type="text" value="{$row.lat|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Is_point')}</span>:</label>
+        <div class="col-xs-12 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input name="row[is_point]" type="checkbox" {if $row.is_point == 1}checked{/if} value="1">
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Is_map_show')}</span>:</label>
+        <div class="col-xs-12 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input name="row[is_map_show]" type="checkbox" {if $row.is_map_show == 1}checked{/if} value="1">
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group"  id="camera-box">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Camera')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-camera" class="form-control" size="50"  name = 'row[video_name]' type="text" value="{$row.video_name}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="fachoose-camera" class="btn btn-primary fachoosecamera" data-input-id="c-camera"   data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+            </div>
+            <ul class="row list-inline plupload-preview" id="pc-camera"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Content')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-content" name="row[content]" cols="45" rows="5" style="width:100%;height:400px">{$row.content|htmlentities}</textarea>
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

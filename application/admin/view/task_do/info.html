@@ -1,0 +1,113 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {$row.title}
+		</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Img')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {foreach $row.img as $vo}
+				{if $vo}
+			    <a href="{$vo}" target="_blank"><img src="{$vo}"></a>
+				{/if}
+			{/foreach}
+		</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8 ">
+		<span class="group-text">
+        {$row.content}
+		</span>
+        </div>
+    </div>
+    <?php if($report) { ?>
+    <?php  if($report['images']) { ?>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('ReportImg')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+          {foreach $report.images as $vo}
+				{if $vo}
+			    <a href="{$vo}" target="_blank"><img src="{$vo}"></a>
+				{/if}
+			{/foreach}
+		</span>
+        </div>
+    </div>
+    <?php } ?>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('ReportContent')}:</label>
+        <div class="col-xs-12 col-sm-8 ">
+		<span class="group-text">
+
+        {$report.content}
+
+		</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Servers')}:</label>
+        <div class="col-xs-12 col-sm-8 ">
+		<span class="group-text">
+        {$report.servers}
+		</span>
+        </div>
+    </div>
+
+    <?php } ?>
+
+
+<!--
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Brief')}:</label>
+        <div class="col-xs-12 col-sm-8">
+           	<span class="group-text">
+        {$row.brief}
+		</span>
+        </div>
+    </div>-->
+
+
+    <?php if(isset($activity) && ['is_appraise']) { ?>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Appraise')}:</label>
+        <div class="col-xs-12 col-sm-8 ">
+		<span class="group-text">
+        {$activity.appraise}
+		</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Score')}:</label>
+        <div class="col-xs-12 col-sm-8 ">
+		<span class="group-text">
+        {$activity.appraise_score}
+		</span>
+        </div>
+    </div>
+    <?php } ?>
+
+
+
+
+
+
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+
+    </div>
+</form>

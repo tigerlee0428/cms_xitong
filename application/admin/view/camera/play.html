@@ -1,0 +1,14 @@
+<script src="http://lib.baomitu.com/chimee-player/1.1.9/chimee-player.browser.js"></script>
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div id="container"></div>
+</form>
+<script>
+    new ChimeePlayer({
+        wrapper: '#container',  // video dom容器
+        src: '{$row.live_url}',
+        box: 'hls',
+        isLive: true,
+        autoplay: true,
+        controls: true
+    });
+</script>

@@ -1,0 +1,79 @@
+    <div class="col-md-4" style="width: 100%">
+        <div class="box box-success"> 
+            <div class="panel-body">  
+                    <div class="box-body box-profile">   
+                        <h3 class="profile-username text-center">工单详情</h3>   
+                        <div class="form-group">
+                            <label for="username" class="control-label" style="font-size: 16px">{:__('post_user')}</label>
+                            <label for="username" class="control-label">{$data.uid}</label> 
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="control-label" style="font-size: 16px">{:__('Mobile')}：</label>
+                            <label for="username" class="control-label">{$data.mobile}</label> 
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="control-label" style="font-size: 16px">{:__('post_title')}</label>
+                            <label for="username" class="control-label">{$data.title}</label> 
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="control-label" style="font-size: 16px">{:__('post_content')}</label>
+                            <label for="username" class="control-label">{$data.content}</label> 
+                        </div>
+                        <div class="form-group">
+                            <label for="nickname" class="control-label" style="font-size: 16px">{:__('post_address')}</label>
+                            <label for="username" class="control-label">{$data.address}</label> 
+                        </div> 
+                        <div class="form-group">
+                            <label for="nickname" class="control-label" style="font-size: 16px">{:__('post_time')}</label>
+                            <label for="username" class="control-label">{$data.createtime|datetime}</label> 
+                        </div>  
+                        <div class="form-group">
+                            <label for="nickname" class="control-label" style="font-size: 16px">{:__('post_images')}</label>   
+                            {$data.images|build_img}
+                        </div>  
+                    </div> 
+            </div>
+        </div>
+
+    </div>
+<form id="hand-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">  
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('SLStatus')}:</label>
+
+        <div class="col-xs-12 col-sm-8">
+            <select  id="c-tpe" data-rule="required" class="form-control selectpicker" name="row[status]" onchange="change(this.value)"> 
+                    <option value="{$key}" {in name="key" value="1"}selected{/in}>{$vo}</option> 
+            </select>
+        </div>
+    </div>
+    <div id="hands" style="display: none">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Sell_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sell_id"  data-source="person/getselect" class="form-control selectpage" name="row[sell_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-content" class="form-control editor" rows="5" name="row[content]" cols="50"></textarea>
+        </div>
+    </div> 
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div> 
+</form>
+<script type="text/javascript">
+    function change(value) {
+        if(value == 4){ 
+            $('#hands').show();
+        }else{ 
+            $('#hands').hide();
+        }
+    }
+</script>

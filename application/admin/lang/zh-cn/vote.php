@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'Title'           => '投票名称',
+    'Img'             => '投票封面',
+    'Can_use_tickets' => '票数',
+    'Can_use_tickets Tips' => '每用户拥有的票数',
+    'Day_limit'       => '每天可投票数',
+    'Day_limit Tips'  => '每天可投多少票，0不限制',
+    'Options_limit'   => '每项可投票数',
+    'Options_limit Tips'  => '每项可投多少票，0不限制',
+    'Area_id'         => '区域ID',
+    'Brief'           => '投票规则',
+    'Status'          => '活动状态',
+    'Start_time'      => '开始时间',
+    'End_time'        => '结束时间',
+    'Is_check'        => '审核状态',
+    'Check_admin'     => '审核人ID',
+    'Check_case'      => '未通过原因',
+    'Check_time'      => '审核时间',
+    'Joincount'       => '参与人数',
+    'Is_publish'      => '是否发布',
+    'Add_time'        => '添加时间',
+    'View_vote_options'=> '投票选项',
+    'Activity_time'   => '活动时间',
+    'Unlimited'       => '不限',
+    'Log'             => '投票记录',
+];

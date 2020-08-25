@@ -1,0 +1,10 @@
+.settings/*
+.buildpath
+.project
+.idea
+.env
+.env.sample
+*.iml
+/runtime/*
+/public/attaches/
+/public/uploads/

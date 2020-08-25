@@ -1,0 +1,44 @@
+<script src="http://lib.baomitu.com/chimee-player/1.1.9/chimee-player.browser.js"></script>
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <h5>{$row.address}</h5>
+        </div>
+    </div>
+    <div id="container_address" style="height: 300px;"></div>
+
+    <br/>
+    <br/>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('P_url')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <h5>{$row.p_url}</h5>
+        </div>
+    </div>
+    <div id="container_p_url" style="height: 300px;"></div>
+</form>
+
+
+<script>
+    new ChimeePlayer({
+        wrapper: '#container_address',  // video dom容器
+        src: '{$row.address}',
+        // box: 'MP4',
+        // isLive: true,
+        autoplay: true,
+        controls: true,
+    });
+
+    new ChimeePlayer({
+        wrapper: '#container_p_url',  // video dom容器
+        src: '{$row.p_url}',
+        box: 'hls',
+        isLive: false,
+        autoplay: true,
+        controls: true
+    });
+
+
+</script>

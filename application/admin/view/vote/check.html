@@ -1,0 +1,89 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+	
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {$row.title}
+		</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Brief')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+		{$row.brief}
+		</span>
+        </div>
+    </div>
+	<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Can_use_tickets')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+		{$row.can_use_tickets}
+		</span>
+        </div>
+    </div>
+	<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Day_limit')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+		{$row.day_limit ? $row.day_limit : __('Unlimited')}
+		</span>
+        </div>
+    </div>
+	<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Options_limit')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+		{$row.options_limit ? $row.options_limit : __('Unlimited')}
+		</span>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Activity_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {$row.start_time}&nbsp;&nbsp;至&nbsp;&nbsp;{$row.end_time}
+		</span>
+        </div>
+    </div>
+    {if isset($row.img) && $row.img}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Img')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        <a href="{$row.img}" target="_blank"><img src="{$row.img}"></a>
+		</span>
+        </div>
+    </div>
+    {/if}
+    
+    <div class="form-group">
+    	<label class="control-label col-xs-12 col-sm-2">{:__('IsPass')}:</label>
+		<div class="radio col-xs-12 col-sm-8">
+		  <label>
+		    <input type="radio" name="row[is_check]" id="check1" value="1" checked>
+		    {:__('Pass')}
+		  </label>
+		  <label>
+		    <input type="radio" name="row[is_check]" id="check2" value="2">
+		    {:__('UnPass')}
+		  </label>
+		</div>
+	</div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('UnPassReason')}:</label>
+        <div class="col-xs-12 col-sm-8">
+        <textarea name="row[check_case]" id="check_case" cols="45" rows="3" style="width:100%;height:200px"></textarea>
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

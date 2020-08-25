@@ -1,0 +1,60 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {$row.title}
+		</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Img')}:</label>
+        <div class="col-xs-12 col-sm-8">
+		<span class="group-text">
+        {foreach $row.img as $vo}
+				{if $vo}
+			    <a href="{$vo}" target="_blank"><img src="{$vo}"></a>
+				{/if}
+			{/foreach}
+		</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8 ">
+		<span class="group-text">
+        {$row.content}
+		</span>
+        </div>
+    </div>
+
+    <div class="form-group"  id="area-box">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Appoint')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-area" class="form-control" size="50"  type="text" value="" >
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="fachoose-area" class="btn btn-primary fachoosearea" data-input-id="c-area"  data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+            </div>
+            <ul class="row list-inline plupload-preview" id="pc-area"></ul>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

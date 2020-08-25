@@ -1,0 +1,47 @@
+<form id="adjust-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+	
+    <div class="form-group">
+        <label class="control-label col-xs-2 col-sm-2"><span>{:__('Nickname')}</span>:</label>
+        <div class="col-xs-4 col-sm-8">
+		<span class="group-text">
+        {$row.nickname}
+		</span>
+        </div>
+		<label class="control-label col-xs-3 col-sm-2"><span>{:__('Mobile')}</span>:</label>
+        <div class="col-xs-3 col-sm-8">
+		<span class="group-text">
+		{$row.mobile}
+		</span>
+        </div>
+    </div>
+
+	
+    <div class="form-group">
+        
+		<label class="control-label col-xs-3 col-sm-2"><span>{:__('CurScore')}</span>:</label>
+        <div class="col-xs-3 col-sm-8 ">
+		<span class="group-text">
+        {$row.score}{:__('Fen')}
+		</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-2 col-sm-2"><span>{:__('AdjustScore')}</span>:</label>
+        <div class="col-xs-8 col-sm-8">
+		<div class="input-group">
+            <input id="c-score"  class="form-control" name="score" type="number"  value=""  >
+			<div class="input-group-addon">{:__('Fen')}</div>
+		</div>
+		</div>
+    </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed ">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+

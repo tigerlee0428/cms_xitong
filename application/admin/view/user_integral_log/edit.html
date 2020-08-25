@@ -1,0 +1,82 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Uid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-uid" data-rule="required" class="form-control" name="row[uid]" type="number" value="{$row.uid|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Area_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-area_id" data-rule="required" data-source="area/index" class="form-control selectpage" name="row[area_id]" type="text" value="{$row.area_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Event_code')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-event_code" data-rule="required" class="form-control" name="row[event_code]" type="text" value="{$row.event_code|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Event_note')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-event_note" data-rule="required" class="form-control" name="row[event_note]" type="text" value="{$row.event_note|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Obj_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-obj_id" data-rule="required" data-source="obj/index" class="form-control selectpage" name="row[obj_id]" type="text" value="{$row.obj_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Scores')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-scores" data-rule="required" class="form-control" name="row[scores]" type="number" value="{$row.scores|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Note')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-note" data-rule="required" class="form-control" name="row[note]" type="text" value="{$row.note|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Device_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-device_id" data-rule="required" data-source="device/index" class="form-control selectpage" name="row[device_id]" type="text" value="{$row.device_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Device_ip')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-device_ip" data-rule="required" class="form-control" name="row[device_ip]" type="text" value="{$row.device_ip|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Create_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-create_at" data-rule="required" class="form-control" name="row[create_at]" type="number" value="{$row.create_at|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Can_edit')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-can_edit" data-rule="required" class="form-control" name="row[can_edit]" type="number" value="{$row.can_edit|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Grand_type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-grand_type" class="form-control" name="row[grand_type]" type="number" value="{$row.grand_type|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,269 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+	
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs nav-cont" role="tablist">
+	  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">{:__('basic')}</a></li>
+	  <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">{:__('detail')}</a></li>
+	  <li role="presentation"><a href="#other" aria-controls="other" role="tab" data-toggle="tab">{:__('other')}</a></li>
+	</ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content con-cont">
+    <div role="tabpanel" class="tab-pane fade in active" id="home">
+		<div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Category')}</span>:</label>
+	        <div class="col-xs-6 col-sm-4">
+				<select name = 'row[category]' class="form-control selectpicker" data-rule="required">
+	           		<?php echo $catestr;?>
+	           	</select>
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Title')}</span>:</label>
+	        <div class="col-xs-12 col-sm-8">
+	            <input id="c-title" data-rule="required" class="form-control" name="row[title]" type="text" value="" placeholder="{:__('Title Tips')}" maxlength=40>
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Brief')}</span>:</label>
+	        <div class="col-xs-12 col-sm-8">
+	        <textarea id="c-brief" class="form-control" rows="5" name="row[brief]" cols="50" placeholder="{:__('Brief Tips')}"></textarea>
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Add_time')}</span>:</label>
+	        <div class="col-xs-12 col-sm-8">
+	            <input id="c-add_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[add_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Tpe')}</span>:</label>
+	        <div class="col-xs-6 col-sm-4" data-toggle="tooltip" data-placement="right" title="{:__('Tpe Tips')}">
+	                        
+	            <select  id="c-tpe" data-rule="required" class="form-control selectpicker" name="row[tpe]">
+	                {foreach name="articletpe" item="vo"}
+	                    <option value="{$key+1}" {in name="key" value=""}selected{/in}>{$vo}</option>
+	                {/foreach}
+	            </select>
+	
+	        </div>
+	    </div>
+	    <div class="form-group" style="display:none;" id="video-box">
+	        <label class="control-label col-xs-12 col-sm-2">{:__('Video_path')}:</label>
+	        <div class="col-xs-12 col-sm-8">
+	            <div class="input-group">
+	                <input id="c-video" class="form-control" size="50"  type="text" value="">
+	                <div class="input-group-addon no-border no-padding">
+	                    <span><button type="button" id="fachoose-video" class="btn btn-primary fachoosevideo" data-input-id="c-video"  data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+	                </div>
+	            </div>
+	            <ul class="row list-inline plupload-preview" id="pc-video"></ul>
+	        </div>
+	    </div>
+	    <div class="form-group" style="display:none;" id="camera-box">
+	        <label class="control-label col-xs-12 col-sm-2">{:__('Camera')}:</label>
+	        <div class="col-xs-12 col-sm-8">
+	            <div class="input-group">
+	                <input id="c-camera" class="form-control" size="50"  type="text" value="">
+	                <div class="input-group-addon no-border no-padding">
+	                    <span><button type="button" id="fachoose-camera" class="btn btn-primary fachoosecamera" data-input-id="c-camera"  data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+	                </div>
+	            </div>
+	            <ul class="row list-inline plupload-preview" id="pc-camera"></ul>
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Img')}</span>:</label>
+	        <div class="col-xs-12 col-sm-8">
+	            <div class="input-group">
+	                <input id="c-img" class="form-control" size="50" name="row[img]" type="text" value="" placeholder="{:__('Img Tips')}">
+	                <div class="input-group-addon no-border no-padding">
+	                    <span><button type="button" id="plupload-img" class="btn btn-danger plupload cropper" data-input-id="c-img" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-img"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+	                    <span><button type="button" id="fachoose-img" class="btn btn-primary fachoose" data-input-id="c-img" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+	                </div>
+	                <span class="msg-box n-right" for="c-img"></span>
+	            </div>
+	            <ul class="row list-inline plupload-preview" id="p-img"></ul>
+	        </div>
+	    </div>
+	    <div class="form-group" style="display:none;" id="images-box">
+	        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Images')}</span>:</label>
+	        <div class="col-xs-12 col-sm-8">
+	            <div class="input-group">
+	                <input id="c-images" class="form-control" size="50" name="row[images]" type="text">
+	                <div class="input-group-addon no-border no-padding">
+	                    <span><button type="button" id="plupload-images" class="btn btn-danger plupload cropper" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+	                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+	                </div>
+	                <span class="msg-box n-right" for="c-images"></span>
+	            </div>
+	            <ul class="row list-inline plupload-preview" id="p-images"></ul>
+	        </div>
+	    </div>
+	</div>
+	
+	
+	<div role="tabpanel" class="tab-pane fade" id="detail">
+	{switch name="articlemodel"}
+    {case value="people"}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('PeopleName')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" class="form-control" name="row[name]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Vocation')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-vocation" class="form-control" name="row[vocation]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Deed')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-book_deed" class="form-control" name="row[deed]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Content')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+        <textarea name="row[content]" id="c-content" cols="50" rows="5" style="width:100%;height:300px"></textarea>
+        </div>
+    </div>
+	{/case}
+    {case value="book"}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('BookAuthor')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-book_author" class="form-control" name="row[book_author]" type="text" value="">
+        </div>
+    </div>
+	{/case}
+	{case value="classroom"}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('AuthorClassRoom')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-author" class="form-control" name="row[author]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Address')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-address" class="form-control" name="row[address]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Start_time')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-start_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[start_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('End_time')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-end_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[end_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Content')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+        <textarea name="row[content]" id="c-content" cols="50" rows="5" style="width:100%;height:300px"></textarea>
+        </div>
+    </div>
+	{/case}
+    {default /}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Content')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+        <textarea name="row[content]" id="c-content" cols="50" rows="5" style="width:100%;height:300px"></textarea>
+        </div>
+    </div>
+	{/switch}
+	</div>
+	
+    
+    
+    <div role="tabpanel" class="tab-pane fade" id="other">	
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Click_count')}</span>:</label>
+	        <div class="col-xs-12 col-sm-8">
+	            <input id="c-click_count" class="form-control" name="row[click_count]" type="number" value="0">
+	        </div>
+	    </div>
+	    
+	    <div class="form-group">
+	        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Author')}</span>:</label>
+	        <div class="col-xs-12 col-sm-8">
+	            <input id="c-author" class="form-control" name="row[author]" type="text" value="">
+	        </div>
+	    </div>
+	    
+		<div class="form-group">
+		    <label class="control-label col-xs-12 col-sm-2"><span>{:__('Is_show')}</span>:</label>
+		    <div class="col-xs-12 col-sm-10">
+		      <div class="checkbox">
+		        <label>
+		          <input name="row[is_show]" type="checkbox" checked value="1">
+		        </label>
+		      </div>
+		    </div>
+		</div>
+		{if $Think.config.tv}
+		<div class="form-group">
+		    <label class="control-label col-xs-12 col-sm-2"><span>{:__('Is_tv_show')}</span>:</label>
+		    <div class="col-xs-12 col-sm-10">
+		      <div class="checkbox">
+		        <label>
+		          <input name="row[is_tv_show]" type="checkbox" checked value="1">
+		        </label>
+		      </div>
+		    </div>
+		</div>
+		{/if}
+		{if $Think.config.wx}
+		<div class="form-group">
+		    <label class="control-label col-xs-12 col-sm-2"><span>{:__('Is_wx_show')}</span>:</label>
+		    <div class="col-xs-12 col-sm-10">
+		      <div class="checkbox">
+		        <label>
+		          <input name="row[is_wx_show]" type="checkbox" checked value="1">
+		        </label>
+		      </div>
+		    </div>
+		</div>
+		{/if}
+		{if $Think.config.pc}
+		<div class="form-group">
+		    <label class="control-label col-xs-12 col-sm-2"><span>{:__('Is_pc_show')}</span>:</label>
+		    <div class="col-xs-12 col-sm-10">
+		      <div class="checkbox">
+		        <label>
+		          <input name="row[is_pc_show]" type="checkbox" checked value="1">
+		        </label>
+		      </div>
+		    </div>
+		</div>
+		{/if}
+		<div class="form-group">
+		    <label class="control-label col-xs-12 col-sm-2"><span>{:__('Is_show_index')}</span>:</label>
+		    <div class="col-xs-12 col-sm-10">
+		      <div class="checkbox">
+		        <label>
+		          <input name="row[is_show_index]" type="checkbox" checked value="1">
+		        </label>
+		      </div>
+		    </div>
+		</div>
+</div>
+    
+</div>	    
+	    <div class="form-group layer-footer">
+	        <label class="control-label col-xs-12 col-sm-2"></label>
+	        <div class="col-xs-12 col-sm-8">
+	            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+	            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+	        </div>
+	    </div>
+    
+
+</form>

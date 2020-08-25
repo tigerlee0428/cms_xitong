@@ -1,0 +1,167 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs nav-cont" role="tablist">
+	  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">{:__('basic')}</a></li>
+	  <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">{:__('detail')}</a></li>
+	  <li role="presentation"><a href="#other" aria-controls="other" role="tab" data-toggle="tab">{:__('other')}</a></li>
+	</ul>
+	
+	<!-- Tab panes -->
+  	<div class="tab-content con-cont">
+    <div role="tabpanel" class="tab-pane fade in active" id="home">
+    {if $row.is_check == 2}
+	<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('NoCheckCase')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+        <span class="group-text red">
+		{$row.check_case}
+		</span>
+        </div>
+    </div>
+	{/if}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Title')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title" data-rule="required" class="form-control" name="row[title]" type="text" value="{$row.title|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Brief')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+        <textarea id="c-brief" class="form-control" name="row[brief]" type="text" value="" rows=3>{$row.brief|htmlentities}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Publish_time')}</span>:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-publish_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[publish_time]" type="text" value="{:$row.publish_time?datetime($row.publish_time):''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Start_time')}</span>:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-start_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[start_time]" type="text" value="{:$row.start_time?datetime($row.start_time):''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('End_time')}</span>:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-end_time" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[end_time]" type="text" value="{:$row.end_time?datetime($row.end_time):''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Contacter')}</span>:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-contacter" class="form-control" name="row[contacter]" type="text" value="{$row.contacter|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Phone')}</span>:</label>
+        <div class="col-xs-6 col-sm-4">
+            <input id="c-phone" class="form-control" name="row[phone]" type="text" value="{$row.phone|htmlentities}">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Address')}</span>:</label>
+        <div class="col-xs-12 col-sm-6">
+        <div class="input-group">
+            <input id="c-address" class="form-control"  name="row[address]" type="text" value="{$row.address|htmlentities}" placeholder="{:__('Address Tips')}">
+            <div class="input-group-addon no-border no-padding">
+                <i class="fa fa-map-marker map-address" data-toggle="addresspicker" data-input-id="c-address"></i>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="detail">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Images')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-images" class="form-control" size="50" name="row[images]" type="text" value="{$row.images|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="plupload-images" class="btn btn-danger plupload" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-images"></span>
+            </div>
+            <ul class="row list-inline plupload-preview" id="p-images"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Content')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-content" name="row[content]" cols="45" rows="5" style="width:100%;height:400px">{$row.content|htmlentities}</textarea>
+        </div>
+    </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="other">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Person_limit')}</span>:</label>
+        <div class="col-xs-4 col-sm-3">
+            <input id="c-person_limit" class="form-control" name="row[person_limit]" type="number" value="{$row.person_limit|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Servicetime')}</span>:</label>
+        <div class="col-xs-4 col-sm-3">
+            <input id="c-servicetime" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[servicetime]" type="text" value="{:$row.servicetime?datetime($row.servicetime):''}">
+        </div>
+    </div>
+    {if $row['is_volunteer'] == 1}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Group')}</span>:</label>
+        <div class="col-xs-12 col-sm-8"> 
+            <input id="c-group_id"  data-source="volunteer_group/index" data-field="title" class="form-control selectpage"  name="row[group_id]" type="text" value="{$row.group_id|htmlentities}">
+        </div>
+    </div>
+    {/if}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Group_name')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-group_name" class="form-control" name="row[group_name]" type="text" value="{$row.group_name|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Place')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-place_id" data-source="place/index"  class="form-control selectpage" name="row[place_id]" type="text" value="{$row.place_id|htmlentities}">
+        </div>
+    </div>
+    {if $row.is_menu == 1}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Is_need_vol')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+        <label>
+          <input name="row[is_need_vol]" type="checkbox" {if $row.is_need_vol == 1}checked{/if} value="1">
+        </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Vol_num')}</span>:</label>
+        <div class="col-xs-4 col-sm-3">
+            <input id="c-vol_num" class="form-control" name="row[vol_num]" type="number" value="{$row.vol_num|htmlentities}">
+        </div>
+    </div>
+    {/if}
+     <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Is_need_prize')}</span>:</label>
+        <div class="col-xs-12 col-sm-8">
+        <label>
+          <input name="row[is_need_prize]" type="checkbox" {if $row.is_need_prize == 1}checked{/if} value="1">
+        </label>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+   
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
