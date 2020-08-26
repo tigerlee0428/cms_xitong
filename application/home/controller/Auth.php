@@ -18,6 +18,7 @@ use app\common\model\User;
 use think\Request;
 use EasyWeChat\Factory;
 use think\response\Redirect;
+use think\Log;
 
 class Auth extends Api{
 
@@ -62,7 +63,7 @@ class Auth extends Api{
             $redis = new \Redis();
             $redis->connect("127.0.0.1",6379);
             $redis->hset($scankey,'status',2);
-            $redis->hset($scankey,' ',$access_token);
+            $redis->hset($scankey,'access_token',$access_token);
             $redis->expire($scankey,60);
             $url = config("wx_domain")."?access_token=".$access_token;
             $this->redirect($url);
