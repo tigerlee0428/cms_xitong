@@ -348,7 +348,6 @@ class Auth extends Api{
             exit('redirect_uri error!!');
         }
         $openid = User::where(['id'=>$this->auth->id])->value('openid');
-        $openid = 'ot80C1R3gAvuBt0lKQ3t2U8crVj8';
         $zyh = new \fast\ZyhResource();
         $apiFun = '/api/userCenter/loginByOpenId'; //访问方法
         $apiParam = array('openid'=>$openid);//访问参数
@@ -359,14 +358,13 @@ class Auth extends Api{
                 $url = 'http://47.99.112.147:8080/webproject/usercenter/login?callbackurl='.$callbackurl.'&openid='.$openid;
                 $this->redirect($url);
             }else{
-
                  User::update(['is_volunteer'=>1],['id'=>$this->auth->id]);
-                $redirect_url = 'http://m.kh.cst-info.cn:8000?zyh_token='.$token;
+                $redirect_url = $redirect_url.'?zyh_token='.$token;
                 $this->redirect($redirect_url);
             }
         }else{
             $token = $result['token'];
-            $redirect_url = 'http://m.kh.cst-info.cn:8000?zyh_token='.$token;
+            $redirect_url = $redirect_url.'?zyh_token='.$token;
             $this->redirect($redirect_url);
         }
     }
@@ -379,7 +377,6 @@ class Auth extends Api{
             exit('redirect_uri error!!');
         }
         $openid = User::where(['id'=>$this->auth->id])->value('openid');
-        $openid = $openid?$openid:'ot80C1R3gAvuBt0lKQ3t2U8crVj8';
         $zyh = new \fast\ZyhResource();
         $apiFun = '/api/userCenter/loginByOpenId'; //访问方法
         $apiParam = array('openid'=>$openid);//访问参数
@@ -391,13 +388,13 @@ class Auth extends Api{
                 $this->redirect($url);
             }else{
                 User::update(['is_volunteer'=>1],['id'=>$this->auth->id]);
-                $redirect_url = 'http://www.kh.cst-info.cn:8000?zyh_token='.$token;
+                $redirect_url = $redirect_url.'?zyh_token='.$token;
                 $this->_binding($openid,$token);
                 $this->redirect($redirect_url);
             }
         }else{
             $token = $result['token'];
-            $redirect_url = 'http://www.kh.cst-info.cn:8000?zyh_token='.$token;
+            $redirect_url = $redirect_url.'?zyh_token='.$token;
             $this->redirect($redirect_url);
         }
     }

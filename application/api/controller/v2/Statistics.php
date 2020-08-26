@@ -249,17 +249,10 @@ class Statistics extends ApiCommon
            ];
        }*/
 
-
-
-
-
-
       if(class_exists('redis')){
           $redis = new \Redis();
           $redis->connect("127.0.0.1",6379);
-
           $Area=$redis->hget('area','areapm');
-
           if($Area){
               $Area = json_decode($Area,true);
           }else{
@@ -286,7 +279,7 @@ class Statistics extends ApiCommon
                       'score' => $v['score'],
                       'level' => $v['level'],
                       'is_point' => $v['is_point'],
-                      'mobile'
+                      'is_map_show' => $v['is_map_show'],
                   ];
                       }
               $data = json_encode($Area);

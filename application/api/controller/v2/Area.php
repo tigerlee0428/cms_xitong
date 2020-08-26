@@ -33,11 +33,19 @@ class Area extends ApiCommon
         $page = max($page,1);
         $pagesize = $pagesize ? $pagesize : 10;
         $id = intval(input("id"));
+        $is_point = intval(input("is_point",-1));
+        $is_map_show = intval(input("is_map_show",-1));
         $where = [];
         if($id){
             $where = ['pid'=>$id];
         }else{
             $where = ['pid' => \app\common\model\Admin::where(['id'=>1])->value("area_id")];
+        }
+        if($is_point !=-1){
+            $where['is_point'] = $is_point;
+        }
+        if($is_map_show !=-1){
+            $where['is_map_show'] = $is_map_show;
         }
         $areaList = Area_mod::where($where)->page($page)->limit($pagesize)->order($orders)->select();
         $total = Area_mod::where($where)->count();
