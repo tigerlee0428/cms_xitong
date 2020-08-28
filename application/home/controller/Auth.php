@@ -388,6 +388,7 @@ class Auth extends Api{
                 $url = 'http://47.99.112.147:8080/webproject/usercenter/pc/login?callbackurl='.urlencode($callbackurl);
                 $this->redirect($url);
             }else{
+                //更新token
                 User::update(['is_volunteer'=>1],['id'=>$this->auth->id]);
                 $redirect_url = $redirect_url.'?zyh_token='.$token;
                 $this->_binding($openid,$token);

@@ -322,6 +322,7 @@ return [
         'http://jhpc.cst-info.cn',
         'http://jhwx.cst-info.cn',
         'http://jhcms.cst-info.cn',
+        'http://touch.kh.cst-info.cn:8000'
     ],
     
     //短信验证相关信息配置
