@@ -2,6 +2,7 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\User;
 use app\common\controller\Backend;
 use think\Db;
 use think\Exception;
@@ -176,6 +177,12 @@ class WorkOrder extends Backend
             $this->error(__('Parameter %s can not be empty', ''));
         }
         $row['img'] = $row['img'] ? explode(',',$row['img']) : [];
+        $orders = [];
+        if(in_array($row['tpe'],[5,6])){
+            $orders = \app\admin\model\Orders::get(['id'=>$row['resource_id']]);
+            $this->view->assign("orders", $orders);
+        }
+        $this->view->assign("orders", $orders);
         $this->view->assign("row", $row);
         $this->view->assign("type",$this->model->getDoType());
         return $this->view->fetch();
@@ -385,6 +392,26 @@ class WorkOrder extends Backend
     public function upRequest($ids){
       \app\admin\model\WorkOrder::update(['status' =>3,'area_id'=>1007],['id'=>$ids]);
       $this->success();
+    }
+
+
+    /**
+     * 详情
+     */
+    public function info($ids = null)
+    {
+        $row = $this->model->get($ids);
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        $adminIds = $this->getDataLimitAdminIds();
+        if (is_array($adminIds)) {
+            if (!in_array($row[$this->dataLimitField], $adminIds)) {
+                $this->error(__('You have no permission'));
+            }
+        }
+        $this->view->assign("row", $row);
+        return $this->view->fetch();
     }
 
 }

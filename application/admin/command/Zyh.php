@@ -109,7 +109,7 @@ class Zyh extends Command
         $groupList = [];
         $list = $list['data']['list'];
         foreach ($list as $K => $v){
-            $group = \app\common\model\Activity::where(['zid'=>$v['_id']])->find();
+            $group = \app\common\model\VolunteerGroup::where(['dep_id'=>$v['_id']])->find();
             if($group){
                 if($group['is_get'] == 0){
                     $apiFun = '/api/newage/department/detail'; //访问方法
@@ -137,8 +137,8 @@ class Zyh extends Command
                 'county'        => $v['county_name'],
                 'area_id'       => 1007,
                 'addtime'      => time(),
-                'recruitNum'   =>$v['recruitNum'],
-                'activity_num' => $v['activityNum'],
+             /*   'recruitNum'   =>$v['recruitNum'],
+                'activity_num' => $v['activityNum'],*/
             ];
         }
         if($groupList){

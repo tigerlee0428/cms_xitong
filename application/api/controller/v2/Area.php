@@ -121,6 +121,10 @@ class Area extends ApiCommon
         $orders = trim(input("orders","id desc"));
         $page = max($page,1);
         $pagesize = $pagesize ? $pagesize : 10;
+        $is_map_show = intval(input("is_map_show",-1));
+        if($is_map_show !=-1){
+            $where['is_map_show'] = $is_map_show;
+        }
         $areaList = Area_mod::where(['id'=>['in',\app\common\model\Cfg::childArea($id)]])->page($page)->limit($pagesize)->order($orders)->select();
         $total = Area_mod::where(['id'=>['in',\app\common\model\Cfg::childArea($id)]])->count();
         $list = [];
@@ -162,10 +166,17 @@ class Area extends ApiCommon
         $orders = trim(input("orders","id desc"));
         $page = max($page,1);
         $pagesize = $pagesize ? $pagesize : 10;
+        $is_map_show = intval(input("is_map_show",-1));
         if(!$id){
             $id  =  \app\common\model\Admin::where(['id'=>1])->value("area_id");
         }
-        $areaList = Area_mod::where(['pid'=>$id])->order($orders)->select();
+        if($is_map_show !=-1){
+            $where['is_map_show'] = $is_map_show;
+        }
+        if($id){
+            $where['pid'] =$id;
+        }
+        $areaList = Area_mod::where($where)->order($orders)->select();
         $total = Area_mod::where(['pid'=>$id])->count();
         $list = [];
         if($areaList){

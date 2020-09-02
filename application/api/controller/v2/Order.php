@@ -92,6 +92,36 @@ class Order extends ApiCommon
     }
 
     /**
+     * 点单主题列表
+     * @param int $page      页码
+     * @param int $pagesize  每页数
+     * @param string $orders    排序
+     */
+    public function myorderList(){
+        $page       = intval(input("page",1));
+        $pagesize   = intval(input("pagesize",10));
+        $orders     = trim(input("orders","id desc"));
+        $page = max($page,1);
+        $pagesize = $pagesize ? $pagesize : 10;
+        $where=['uid'=>$this->auth->id];
+        $orderList = \app\common\model\OrderLog::where($where)->page($page)->limit($pagesize)->order($orders)->select();
+        foreach($orderList as $k => $v){
+            $order = \app\admin\model\Order::get(['id'=>$v['order_id']]);
+            $orderList[$k]['title']         = $order['title'];
+            $orderList[$k]['content']       = $order['content'];
+            $orderList[$k]['tpe_name']      = \app\common\model\OrderType::where(['id'=>$v['tpe']])->value('name');
+        }
+        $total = \app\common\model\OrderLog::where($where)->count();
+        ok([
+            "items"     => $orderList,
+            "pagesize"  => $pagesize,
+            "curpage"   => $page,
+            "totalpage" => ceil($total/$pagesize),
+            "total"     => $total
+        ]);
+    }
+
+    /**
      * 点单
      * @param int $period_id 菜单ID
      * @param int $area_id 区域ID
@@ -140,11 +170,14 @@ class Order extends ApiCommon
             $lang = lang("order_fail");
             err(200,"order_fail",$lang['code'],$lang['message']);
         }
+        $userInfo = \app\common\model\User::get(['id'=>$this->auth->id]);
         $work = [
             'resource_id' => $ret,
             'title'       => $orderInfo['title'],
             'content'     => $content,
             'area_id'     => $area_id,
+            'mobile'      => $userInfo['mobile'],
+            'username'    => $userInfo['realname']?$userInfo['realname']:$userInfo['nickname'],
             'add_time'    => time(),
             'tpe'         => 4
         ];

@@ -15,9 +15,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     table: 'volunteer_group',
                 }
             });
-
             var table = $("#table");
-
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
@@ -31,12 +29,18 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'logo', title: __('Logo'),formatter:Table.api.formatter.image,searchable:false,events: Table.api.events.image},
                         {field: 'title', title: __('Title'),operate:'like',align:'left'},
                         {field: 'areaName', title: __('Area_id'),searchable:false},
+/*
                         {field: 'master', title: __('Master')},
+*/
+/*
                         {field: 'mobile', title: __('Mobile')},
+*/
                         {field: 'addtime', title: __('Addtime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
                         {field: 'number', title: __('VolunteerNumber'),searchable:false,formatter:volunteerNumber},
                         {field: 'jobtimeall', title: __('WholeJobTime'),searchable:false,formatter:function(value,row,index){return (value/3600).toFixed(2) + 'h'}},
+/*
                         {field: 'is_check', title: __('Status'),formatter: Table.api.formatter.flag,searchList:{0:__('No Check'),1:__('Check Pass'),2:__('Check No Pass')},custom:{0:'warning',1:'success',2:'danger'}},
+*/
                         {
                         	field: 'operate',
                         	title: __('Operate'),
@@ -44,7 +48,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         	events: Table.api.events.operate,
                         	formatter: Table.api.formatter.operate,
                         	buttons:[
-          			             {
+          			          /*   {
        			                      name: 'check',
        			                      text: __('Check'),
        			                      title:function(row){return __('Check') + row.title},
@@ -57,8 +61,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
        			                    	  }
        			                    	  return false;
        			                      }
-       			                  },
-                                {
+       			                  },*/
+                            /*    {
                                     name: 'auto',
                                     text: __('Auto'),
                                     title:function(row){return __('Auto') + row.title},
@@ -76,7 +80,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                             table.bootstrapTable('refresh');
                                         }
                                     }
-                                },
+                                },*/
        			             ]
                         }
                     ]

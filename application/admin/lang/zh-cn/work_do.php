@@ -34,4 +34,5 @@ return [
     'Style1'                        => '所站',
     'Style2'                        => '团队',
     'Style3'                        => '操作员',
+    'Feed img'                      => '反馈图片'
 ];

@@ -105,7 +105,7 @@ $(function(){
       },
       fileNumLimit:5,//验证文件总数量, 超出则不允许加入队列
       fileSizeLimit:5120*1024*1024,//验证文件总大小是否超出限制, 超出则不允许加入队列_5G
-      threads:10//上传并发数。允许同时最大上传进程数
+      threads:1//上传并发数。允许同时最大上传进程数
     });
     // 当有文件被添加进队列的时候
     uploader.on( 'fileQueued', function( file ) {

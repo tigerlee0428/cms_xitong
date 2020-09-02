@@ -69,7 +69,6 @@ class Orders extends Backend
         }
         return $this->view->fetch();
     }
-
     /**
      * 查看
      */
@@ -194,7 +193,6 @@ class Orders extends Backend
         $row['areaName']   = \app\admin\model\Area::where(['id'=>$row['area_id']])->value("mergename");
         $this->view->assign("row", $row);
         return $this->view->fetch();
-
     }
 
 

@@ -10,14 +10,16 @@
                         <a href="javascript:;" class="btn btn-success btn-add {:$auth->check('volunteer_group/add')?'':'hide'}" title="{:__('Add')}" ><i class="fa fa-plus"></i> {:__('Add')}</a>
                         <a href="javascript:;" class="btn btn-success btn-edit btn-disabled disabled {:$auth->check('volunteer_group/edit')?'':'hide'}" title="{:__('Edit')}" ><i class="fa fa-pencil"></i> {:__('Edit')}</a>
                         <a href="javascript:;" class="btn btn-danger btn-del btn-disabled disabled {:$auth->check('volunteer_group/del')?'':'hide'}" title="{:__('Delete')}" ><i class="fa fa-trash"></i> {:__('Delete')}</a>
-                       
 
-                        
+
+
                     </div>
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
-                           data-operate-edit="{:$auth->check('volunteer_group/edit')}" 
-                           data-operate-del="{:$auth->check('volunteer_group/del')}" 
+                           data-operate-edit="{:$auth->check('volunteer_group/edit')}"
+                           data-operate-del="{:$auth->check('volunteer_group/del')}"
+
                            data-operate-check="{:$auth->check('volunteer_group/check')}"
+
                            width="100%">
                     </table>
                 </div>

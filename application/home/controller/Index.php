@@ -7,13 +7,17 @@ namespace app\home\controller;
 
 
 
+use app\admin\model\Admin;
+use app\admin\model\Area;
 use app\common\controller\Api;
 use app\common\model\User;
 use Overtrue\Weather\Weather;
+use think\Db;
+
 
 class Index extends Api{
 
-    protected $noNeedLogin = ['vrank','grank','plogin','unbind','pclogin','outGroup','joinGroup','smallqr','myActivity','cancelJoin','join','qrcode','weather','signin','index','get','test','testlogin','volunteer'];
+    protected $noNeedLogin = ['mygroup','editarea','addarea','vrank','grank','plogin','unbind','pclogin','outGroup','joinGroup','smallqr','myActivity','cancelJoin','join','qrcode','weather','signin','index','get','test','testlogin','volunteer'];
     protected $noNeedRight = '*';
 
     public function _initialize()
@@ -286,6 +290,15 @@ class Index extends Api{
         var_dump($result);exit;
     }
 
+
+    public function mygroup(){
+        $token = trim(input('zyh_token','15988583129646709645c223b4975a0df7232d3b21230'));
+        $zyh = new \fast\ZyhResource();
+        $apiFun = '/api/newage/volunteer/myDepartment'; //访问方法
+        $apiParam = array('token'=>$token);//访问参数
+        $result = $zyh::getData($apiFun, $apiParam);
+        var_dump($result);
+    }
     //志愿者排行
     public function vrank(){
         $zyh = new \fast\ZyhResource();
@@ -295,6 +308,31 @@ class Index extends Api{
         $apiParam = array('page'=>$page,'rows'=>$rows,'type'=>3);//访问参数
         $result = $zyh::getData($apiFun, $apiParam);
         var_dump($result);exit;
+    }
+
+    public function addarea(){
+        $where=[];
+        $where['url'] =['like','%area/add%'];
+        $area = Db::name('admin_log')->where($where)->select();
+        $data =[];
+        foreach ($area as $k =>$v){
+            $content = json_decode($v['content'],true);
+            //$data[] = $content['row'];
+            $content['row']['level'] = intval($content['row']['level']);
+           Area::create($content['row']);
+        }
+    }
+
+    public function editarea(){
+        $where=[];
+        $where['url'] =['like','%area/edit%'];
+        $area = Db::name('admin_log')->where($where)->select();
+        $data =[];
+        foreach ($area as $k =>$v){
+            $content = json_decode($v['content'],true);
+            //$data[] = $content['row'];
+            Area::where(['id'=>$content['ids']])->update($content['row']);
+        }
     }
 
 

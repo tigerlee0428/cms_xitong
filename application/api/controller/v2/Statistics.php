@@ -11,7 +11,7 @@ use think\Db;
  */
 class Statistics extends ApiCommon
 {
-    protected $noNeedLogin = ['areaRank','ordersCount','byQuarter','index','visit','article','order','activity','help','share','volunteerPMList','areaPMList','bigData','practiceGrid','activityHotList','activityList'];
+    protected $noNeedLogin = ['grank','vrank','areaRank','ordersCount','byQuarter','index','visit','article','order','activity','help','share','volunteerPMList','areaPMList','bigData','practiceGrid','activityHotList','activityList'];
     protected $noNeedRight = '*';
     protected function _initialize(){
         parent::_initialize();
@@ -30,18 +30,19 @@ class Statistics extends ApiCommon
             $placeAreaArr[] = $v['id'];
         }
         ok([
-            'center'            => 1,
-            'place'             => \app\common\model\Area::where(['pid'=>$area_id])->count(),
-           // 'station'           => $placeAreaArr ? \app\common\model\Area::where(['pid'=>['in',$placeAreaArr]])->count() : 0,
-            'station'           => 266,
+            'center'            => cfg('center'),
+            //'place'             => \app\common\model\Area::where(['pid'=>$area_id])->count(),
+            'place'             => cfg('place'),
+            // 'station'           => $placeAreaArr ? \app\common\model\Area::where(['pid'=>['in',$placeAreaArr]])->count() : 0,
+            'station'           => cfg('station'),
             //'volunteer'         => \app\common\model\Volunteer::where(['is_check'=>1])->count() + 852,
-            'volunteer'         => 63157,
+            'volunteer'         => cfg('volunteer'),
             //'volunteerGroup'    => \app\common\model\VolunteerGroup::where(['is_check'=>1])->count() + 32,
-            'volunteerGroup'    => 739,
+            'volunteerGroup'    => cfg('volunteergroup'),
             //'time'              => round(\app\common\model\Volunteer::where(['is_check'=>1])->sum("jobtime") / 3600 , 2) + 1026,
-            'time'              => 769451,
+            'time'              => cfg('activitytime'),
             // 'activityCount'     => $activityCount,
-            'activityCount'     => 3168,
+            'activityCount'     => cfg('activity'),
 
         ]);
     }
@@ -174,7 +175,6 @@ class Statistics extends ApiCommon
        }
       ok($volunteer);
    }
-
    /**
     * 实践所排名
     * @param int $page      页码
@@ -224,9 +224,9 @@ class Statistics extends ApiCommon
            'pagesize'  => $pagesize,
            'orders'    => $orders
        ];
-    /*  $areaList = \app\common\model\Area::where($where)->page($page)->limit($pagesize)->order($orders)->select();
+    /*$areaList = \app\common\model\Area::where($where)->page($page)->limit($pagesize)->order($orders)->select();
       $Area = [];
-       foreach(collection($areaList)->toArray() as $k => $v){
+      foreach(collection($areaList)->toArray() as $k => $v){
            $areaArr = \app\common\model\Cfg::childArea($v['id']);
            $Area[$k] = [
                'rank'      => $k + 1,
@@ -454,14 +454,13 @@ class Statistics extends ApiCommon
         $orders = trim(input("orders", "start_time desc"));
         $page = max($page, 1);
         $pagesize = $pagesize ? $pagesize : 10;
-        $where = [
+     /*   $where = [
             'is_publish' => 1,
             'is_check' => 1,
-        ];
-
-
+        ];*/
+     $where =[];
         $activity = [];
-        $activityList = \app\common\model\Activity::where($where)->field("id,title,brief,likes+click_count as hot,start_time,images,status,address")->page($page)->limit($pagesize)->order($orders)->select();
+        $activityList = \app\common\model\Activity::where($where)->field("id,title,brief,likes+click_count as hot,start_time,images,status,address,thumb")->page($page)->limit($pagesize)->order($orders)->select();
         $total = \app\common\model\Activity::where($where)->count();
         //$list = collection($activityList)->toArray();
         foreach ($activityList as $k => $v) {
@@ -471,7 +470,8 @@ class Statistics extends ApiCommon
                 'title'  => $v['title'],
                 'address'=> $v['address'],
                 'start_time'=> format_time($v['start_time']),
-                'thumb_images' => thumb_img($v['images']),
+                //'thumb_images' => thumb_img($v['images']),
+                'thumb_images' => $v['thumb'],
                 'status'   => $v['status'],
                 'brief'  => $v['brief'],
                 'hot'    => $v['hot'] + 300,
@@ -486,7 +486,6 @@ class Statistics extends ApiCommon
         ]);
     }
 
-
     public function byQuarter(){
        $ordertypes =  OrderType::select();
        $orders = [];
@@ -500,7 +499,7 @@ class Statistics extends ApiCommon
                $end=strtotime(date("Y-".$end_m.'-'.$end_day." 23:59:59"));
                $where[ 'addtime'] =['between',[$start,$end]];
                $where['tpe'] = $v['id'];
-               $data[] = OrderLog::where($where)->count() + rand(2000,3200);
+               $data[] = OrderLog::where($where)->count() + rand(cfg('qjy_order'),cfg('qjy_order')+500);
            }
            $orders[] =[
                'id' => $v['id'],
@@ -513,7 +512,7 @@ class Statistics extends ApiCommon
 
     public function ordersCount(){
         $cateList = Cate::where(['level'=>0])->select();
-        $total = \app\common\model\Orders::count();
+        $total = \app\common\model\Orders::count() + cfg('practice_order') * 5;
         $data = [];
         foreach ($cateList as $k => $v){
             $num  = \app\common\model\Orders::where(['cate'=>['in',\app\common\model\Cfg::childCate($v['id'])]])->count();
@@ -522,39 +521,33 @@ class Statistics extends ApiCommon
             }
             $data[] = [
                 'title' => $v['title'],
-                'num'   => $num,
+                'num'   => $num + cfg('practice_order'),
                 'rate'  => (($num/$total)*100).'%'
             ];
         }
+        ok($data);
+    }
 
-
-        $data =[
-            [
-                'title'=>'理论宣讲',
-                'num'  => 3697,
-                'rate' => '23%'
-            ],
-            [
-                'title'=>'文化育人',
-                'num'  => 3028,
-                'rate' => '18.8%',
-            ],
-            [
-                'title'=>'产业振兴',
-                'num'  => 2976,
-                'rate' => '18.5%',
-            ],
-            [
-                'title'=>'文明治理',
-                'num'  => 2637,
-                'rate' => '16.4%',
-            ],
-            [
-                'title'=>'暖心关爱',
-                'num'  => 3697,
-                'rate' => '23%',
-            ],
-        ];
+    //组织排行
+    public function grank(){
+        $zyh = new \fast\ZyhResource();
+        $apiFun = '/api/newage/department/rank'; //访问方法
+        $page = intval(input('page',1));
+        $rows = intval(input('rows',5));
+        $apiParam = array('page'=>$page,'rows'=>$rows,'type'=>3);//访问参数
+        $result = $zyh::getData($apiFun, $apiParam);
+        $data = $result['data'];
+        ok($data);
+    }
+    //组织排行
+    public function vrank(){
+        $zyh = new \fast\ZyhResource();
+        $apiFun = '/api/newage/volunteer/rank'; //访问方法
+        $page = intval(input('page',1));
+        $rows = intval(input('rows',5));
+        $apiParam = array('page'=>$page,'rows'=>$rows,'type'=>3);//访问参数
+        $result = $zyh::getData($apiFun, $apiParam);
+        $data = $result['data'];
         ok($data);
     }
 }

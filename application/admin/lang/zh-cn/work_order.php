@@ -31,6 +31,7 @@ return [
     'Appoint'                       => '指派',
     'Toperator'                     => '指派给操作员',
     'Completion'                    => '完成情况',
-    'Finish_time'                   => '规定完成时间',
+    'Need_finish_time'                   => '完成时间',
     'Up'                            => '请求中心',
+    'Info'                          => '详情'
 ];

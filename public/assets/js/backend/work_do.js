@@ -8,6 +8,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     index_url: 'work_do/index/style/' + Config.style + location.search,
                     appraise_url: 'work_log/appraise',
                     del_url: 'work_do/del',
+                    info_url: 'work_do/info',
                     multi_url: 'work_do/multi',
                     table: 'work_do',
                 }
@@ -42,6 +43,17 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                         if (row.status == 2 && Config.area_id == row.area_id ) {
                                             return true;
                                         }
+                                    }
+                                },
+                                {
+                                    name: 'info',
+                                    text: __('Info'),
+                                    title:function(row){return __('Info') + row.title},
+                                    classname: 'btn btn-xs btn-success btn-dialog',
+                                    icon: 'fa fa-folder-o',
+                                    url: $.fn.bootstrapTable.defaults.extend.info_url,
+                                    visible:function(row) {
+                                            return true;
                                     }
                                 },
                                 {

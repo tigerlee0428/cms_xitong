@@ -21,6 +21,8 @@ return [
     'WholeJobTime'=> '总时长',
     'Address'       => '地址',
     'Idcard'        => '身份证',
+    'Auto'          => '创建账号',
     'Congratulations on passing the VolunteerGroup Audit'    => '恭喜您！您申请的团体通过审核。',
     'I am sorry you did not pass the volunteerGroup audit'   => '很遗憾，您申请的团体未通过',
+    'Is_auto' => '是否创建账号'
 ];

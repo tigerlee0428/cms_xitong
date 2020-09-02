@@ -166,9 +166,6 @@ class Common extends Api
             err(200,"params_not_valid",$lang['code'],$lang['message']);
         }
         $res = \app\common\model\Video::update($data,$where);
-        $log =
-        $res = \app\common\model\Video::insert();
-
         if($res){
             $this->success('更新成功');
         }else{

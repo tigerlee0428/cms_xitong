@@ -1,7 +1,7 @@
 <form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
 
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Title')}</span>:</label>
         <div class="col-xs-12 col-sm-8">
 		<span class="group-text">
         {$row.title}
@@ -10,7 +10,7 @@
     </div>
     <?php if($row['img']) {?>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Img')}:</label>
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Img')}</span>:</label>
         <div class="col-xs-12 col-sm-8">
 		<span class="group-text">
         {foreach $row.img as $vo}
@@ -24,7 +24,7 @@
     <?php } ?>
 
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Content')}</span>:</label>
         <div class="col-xs-12 col-sm-8 ">
 		<span class="group-text">
         {$row.content}
@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Mobile')}:</label>
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Mobile')}</span>:</label>
         <div class="col-xs-12 col-sm-8 ">
 		<span class="group-text">
         {$row.mobile}
@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Address')}:</label>
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Address')}</span>:</label>
         <div class="col-xs-12 col-sm-8 ">
 		<span class="group-text">
         {$row.address}
@@ -50,7 +50,7 @@
 <?php if($row['status'] >=2) { ?>
     <?php if($log['img']) {?>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Img')}:</label>
+        <label class="control-label col-xs-12 col-sm-2"><span>{:__('Feed img')}</span>:</label>
         <div class="col-xs-12 col-sm-8">
 		<span class="group-text">
           {foreach $log.img as $vo}

@@ -52,7 +52,7 @@ class Orders extends ApiCommon
             'uid'           => $this->uid,
             'title'         => $title,
             'name'      => $username ? $username : $this->auth->nickname,
-            'mobile'        => $mobile,
+            'mobile'        => $this->auth->mobile,
             'tpe'           => $tpe,
             'content'       => $content,
             'add_time'       => time(),
@@ -66,14 +66,16 @@ class Orders extends ApiCommon
             err(200,"order_fail",$lang['code'],$lang['message']);
         }
         if($tpe == 1){
+
             $work = [
                 'title'         => $title,
                 'content'       => $content,
                 'address'       => $address,
                 'area_id'       => $area_id,
-                'mobile'        => $mobile,
+                'mobile'        => $this->auth->mobile,
                 'tpe'           => 5,
                 'resource_id'   => $orders->id,
+                'username'      => $this->auth->realname ? $this->auth->realname : $this->auth->nickname,
                 'add_time'      => time()
             ];
             WorkOrder::create($work);
@@ -148,7 +150,7 @@ class Orders extends ApiCommon
         $tpe        = intval(input("tpe"));
         $page       = intval(input("page",1));
         $pagesize   = intval(input("pagesize",10));
-        $orders     = trim(input("orders","addtime desc"));
+        $orders     = trim(input("orders","add_time desc"));
         $page = max($page,1);
         $pagesize = $pagesize ? $pagesize : 10;
         $where = [
@@ -177,7 +179,7 @@ class Orders extends ApiCommon
             ];
         }
         ok([
-            "items"     => $orders,
+            "items"     => $order,
             "pagesize"  => $pagesize,
             "curpage"   => $page,
             "totalpage" => ceil($total/$pagesize),

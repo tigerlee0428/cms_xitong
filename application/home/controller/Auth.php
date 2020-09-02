@@ -18,10 +18,11 @@ use app\common\model\User;
 use think\Request;
 use EasyWeChat\Factory;
 use think\response\Redirect;
+use app\common\library\Token;
 
 class Auth extends Api{
 
-    protected $noNeedLogin = ['mlogin','pclogin','getQrcodeLoginToken','qrcodeLogin', 'wxlogin', 'getCardnoCode', 'getAccessToken','d','qrcode'];
+    protected $noNeedLogin = ['unbind','mlogin','pclogin','getQrcodeLoginToken','qrcodeLogin', 'wxlogin', 'getCardnoCode', 'getAccessToken','d','qrcode'];
     protected $noNeedRight = '*';
 
     public function _initialize()
@@ -62,7 +63,7 @@ class Auth extends Api{
             $redis = new \Redis();
             $redis->connect("127.0.0.1",6379);
             $redis->hset($scankey,'status',2);
-            $redis->hset($scankey,' ',$access_token);
+            $redis->hset($scankey,'access_token',$access_token);
             $redis->expire($scankey,60);
             $url = config("wx_domain")."?access_token=".$access_token;
             $this->redirect($url);
@@ -342,26 +343,37 @@ class Auth extends Api{
     public function mlogin(){
         $token = trim(input('token'));
         $access_token = trim(input('access_token'));
+        $redirect_url =trim(input('redirect_url'));
+        $redis = new \Redis();
+        $redis->connect("127.0.0.1",6379);
+        $sid = _ua_key();
+        if(!$redis->exists($sid)){
+            $redis->hset($sid,'redirect_url',$redirect_url);
+            $redis->hset($sid,'access_token',$access_token);
+        }else{
+            $redirect_url =  $redis->hget($sid,'redirect_url');
+            $access_token =  $redis->hget($sid,'access_token');
+            $redis->hdel($sid);
 
-        $redirect_url =trim(input('redirect_url','http://m.kh.cst-info.cn:8000'));
+        }
         if(!$redirect_url){
             exit('redirect_uri error!!');
         }
-        $openid = User::where(['id'=>$this->auth->id])->value('openid');
+        $user = Token::get($access_token);
+        $openid = User::where(['id'=>$user['user_id']])->value('openid');
+        if($token){
+            User::update(['is_volunteer'=>1],['id'=>$this->auth->id]);
+            $redirect_url = $redirect_url.'?zyh_token='.$token;
+            $this->redirect($redirect_url);
+        }
         $zyh = new \fast\ZyhResource();
         $apiFun = '/api/userCenter/loginByOpenId'; //访问方法
         $apiParam = array('openid'=>$openid);//访问参数
         $result = $zyh::getData($apiFun, $apiParam);
         if($result['errCode'] == '0009'){
-            if(!$token){
                 $callbackurl = 'http://cms.kh.cst-info.cn:8000/home/auth/mlogin/access_token/'.$access_token;
                 $url = 'http://47.99.112.147:8080/webproject/usercenter/login?callbackurl='.$callbackurl.'&openid='.$openid;
                 $this->redirect($url);
-            }else{
-                 User::update(['is_volunteer'=>1],['id'=>$this->auth->id]);
-                $redirect_url = $redirect_url.'?zyh_token='.$token;
-                $this->redirect($redirect_url);
-            }
         }else{
             $token = $result['token'];
             $redirect_url = $redirect_url.'?zyh_token='.$token;
@@ -369,35 +381,53 @@ class Auth extends Api{
         }
     }
 
+
+
     public function pclogin(){
         $token = trim(input('token'));
-        $access_token= trim(input('access_token','12312312123'));
-        $redirect_url =trim(input('redirect_url','http://www.kh.cst-info.cn:8000'));
+        $access_token= trim(input('access_token'));
+        $redirect_url =trim(input('redirect_url'));
+        $redis = new \Redis();
+        $redis->connect("127.0.0.1",6379);
+        $sid = _ua_key();
+        if(!$redis->exists($sid)){
+            $redis->hset($sid,'redirect_url',$redirect_url);
+            $redis->hset($sid,'access_token',$access_token);
+        }else{
+            $redirect_url =  $redis->hget($sid,'redirect_url');
+            $access_token =  $redis->hget($sid,'access_token');
+            $redis->hdel($sid);
+
+        }
+
         if(!$redirect_url){
             exit('redirect_uri error!!');
         }
-        $openid = User::where(['id'=>$this->auth->id])->value('openid');
+        $user = Token::get($access_token);
+        $openid = User::where(['id'=>$user['user_id']])->value('openid');
         $zyh = new \fast\ZyhResource();
         $apiFun = '/api/userCenter/loginByOpenId'; //访问方法
         $apiParam = array('openid'=>$openid);//访问参数
         $result = $zyh::getData($apiFun, $apiParam);
+        if($token){
+            User::update(['is_volunteer'=>1],['id'=>$user['user_id']]);
+            $redirect_url = $redirect_url.'?zyh_token='.$token;
+            $this->_binding($openid,$token);
+            $this->redirect($redirect_url);
+        }
         if($result['errCode'] == '0009'){
-            if(!$token){
-                $callbackurl = 'http://cms.kh.cst-info.cn:8000/home/index/pclogin/access_token/'.$access_token;
-                $url = 'http://47.99.112.147:8080/webproject/usercenter/pc/login?callbackurl='.urlencode($callbackurl);
-                $this->redirect($url);
-            }else{
-                User::update(['is_volunteer'=>1],['id'=>$this->auth->id]);
-                $redirect_url = $redirect_url.'?zyh_token='.$token;
-                $this->_binding($openid,$token);
-                $this->redirect($redirect_url);
-            }
+            $callbackurl = 'http://cms.kh.cst-info.cn:8000/home/auth/pclogin';
+            $url = 'http://47.99.112.147:8080/webproject/usercenter/pc/login?callbackurl='.urlencode($callbackurl);
+            $this->redirect($url);
+
         }else{
             $token = $result['token'];
             $redirect_url = $redirect_url.'?zyh_token='.$token;
             $this->redirect($redirect_url);
+
         }
     }
+
 
     private function _binding($openid,$token){
         $zyh = new \fast\ZyhResource();
@@ -407,7 +437,7 @@ class Auth extends Api{
 
     }
     public function unbind(){
-        $token = trim(input('zyh_token','15967709688078f45379ccf474013b53537519b56bb86'));
+        $token = trim(input('zyh_token'));
         header("Content-type: text/html; charset=utf-8;token:".$token);
         $openid = 'ot80C1R3gAvuBt0lKQ3t2U8crVj8';
         $zyh = new \fast\ZyhResource();

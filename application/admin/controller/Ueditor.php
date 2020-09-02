@@ -5,8 +5,7 @@ use app\common\controller\Backend;
 use think\Loader;
 class Ueditor extends Backend{
 	private $_config;
-    protected $noNeedRight = ['index'];
-
+	protected $noNeedRight = ['index'];
 	function __construct(){
 		parent::__construct();
 	}
@@ -16,7 +15,7 @@ class Ueditor extends Backend{
 	function index(){
 		$editor_cnf_path = APP_PATH.'ueditor_config.json';
 		$this->_config = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents($editor_cnf_path)), true);
-		$action = input('action');
+        $action = input('action');
 		switch ($action){
 			case 'config':
 				$result =  json_encode($this->_config);

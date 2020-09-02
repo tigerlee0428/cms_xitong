@@ -35,22 +35,22 @@ class Index extends Backend
         'addon'     => ['new', 'red', 'badge'],
         'auth/rule' => __('Menu'),
         ];
-        
+
         $noCheckShare = \app\admin\model\Share::where(['is_check'=>0])->count();
         if($noCheckShare){$icon['share'] = [__("No check %s",$noCheckShare),'red','badge'];}
         $noCheckHelp = \app\admin\model\Help::where(['is_check'=>0])->count();
         if($noCheckHelp){$icon['help'] = [__("No check %s",$noCheckHelp),'red','badge'];}
-        
+
         $noCheckVolunteer = \app\admin\model\Volunteer::where(['is_check'=>0])->count();
         if($noCheckVolunteer){$icon['volunteer'] = [__("No check %s",$noCheckVolunteer),'red','badge'];}
-        $noCheckVolunteerGroup = \app\admin\model\VolunteerGroup::where(['is_check'=>0])->count();
-        if($noCheckVolunteerGroup){$icon['volunteer_group'] = [__("No check %s",$noCheckVolunteerGroup),'red','badge'];}
-        
+       /* $noCheckVolunteerGroup = \app\admin\model\VolunteerGroup::where(['is_check'=>0])->count();
+        if($noCheckVolunteerGroup){$icon['volunteer_group'] = [__("No check %s",$noCheckVolunteerGroup),'red','badge'];}*/
+
         $noCheckVote = \app\admin\model\Vote::where(['is_check'=>0])->count();
         if($noCheckVote){$icon['vote'] = [__("No check %s",$noCheckVote),'red','badge'];}
         $noCheckEvent = \app\admin\model\Event::where(['is_deal'=>0])->count();
         if($noCheckEvent){$icon['event'] = [__("No check %s",$noCheckEvent),'red','badge'];}
-         
+
         list($menulist, $navlist, $fixedmenu, $referermenu) = $this->auth->getSidebar($icon, $this->view->site['fixedpage']);
         $action = $this->request->request('action');
         if ($this->request->isPost()) {
@@ -132,7 +132,7 @@ class Index extends Backend
         Hook::listen("admin_logout_after", $this->request);
         $this->success(__('Logout successful'), 'index/login');
     }
-    
+
     public function addlogin(){
         $url = $this->request->get('url', 'index/index');
         $username = $this->request->get('username');

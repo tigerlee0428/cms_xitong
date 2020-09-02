@@ -12,7 +12,8 @@
                         <a href="javascript:;" class="btn btn-danger btn-del btn-disabled disabled {:$auth->check('order/del')?'':'hide'}" title="{:__('Delete')}" ><i class="fa fa-trash"></i> {:__('Delete')}</a>
                     </div>
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
-                           data-operate-edit="{:$auth->check('order/edit')}" 
+
+                           data-operate-edit="{:$auth->check('order/edit')}"
                            data-operate-del="{:$auth->check('order/del')}"
                            data-operate-addperiod="{:$auth->check('order_period/add')}"
                            data-operate-viewperiod="{:$auth->check('order_period/index')}"

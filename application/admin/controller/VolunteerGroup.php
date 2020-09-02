@@ -131,7 +131,7 @@ class VolunteerGroup extends Backend
             if ($this->request->request('keyField')) {
                 return $this->selectpage();
             }
-            $where = ['is_check' =>1];
+            //$where = ['is_check' =>1];
             $where['area_id'] = $this->auth->area_id;
             $this->where = initWhere($where);
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
@@ -287,6 +287,66 @@ class VolunteerGroup extends Backend
         return $this->view->fetch();
     }
 
+    /**
+     * 编辑
+     */
+    public function edit($ids = null)
+    {
+        $row = $this->model->get($ids);
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        $adminIds = $this->getDataLimitAdminIds();
+        if (is_array($adminIds)) {
+            if (!in_array($row[$this->dataLimitField], $adminIds)) {
+                $this->error(__('You have no permission'));
+            }
+        }
+        if ($this->request->isPost()) {
+            $params = $this->request->post("row/a");
+            if ($params) {
+                $params = $this->preExcludeFields($params);
+                if(isset($params['is_auto'])){
+                    $params['has_admin'] =1;
+                }
+                $result = false;
+                Db::startTrans();
+                try {
+                    //是否采用模型验证
+                    if ($this->modelValidate) {
+                        $name = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : $name) : $this->modelValidate;
+                        $row->validateFailException(true)->validate($validate);
+                    }
+                    $result = $row->allowField(true)->save($params);
+                    Db::commit();
+                } catch (ValidateException $e) {
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                } catch (PDOException $e) {
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                } catch (Exception $e) {
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                }
+                if ($result !== false) {
+                    if(isset($params['is_auto'])){
+                        $pinyin =   new \fast\Pinyin();
+                        $title = $pinyin->get($row['title'],true);
+                        $this->_addAdmin($title,$row['title'],$row['area_id']);
+                    }
+                    $this->success();
+                } else {
+                    $this->error(__('No rows were updated'));
+                }
+            }
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        $this->view->assign("row", $row);
+        return $this->view->fetch();
+    }
+
     private function _addAdmin($username,$nickname,$area_id){
         $salt = Random::alnum();
         $password = md5(md5('volunteer123') . $salt);
@@ -297,7 +357,6 @@ class VolunteerGroup extends Backend
             'salt'     => $salt,
             'area_id'  => $area_id,
             'avatar'   => '/assets/img/avatar.png'
-
         ];
         $admin =  Admin::create($admin_data);
         $access = ['uid' => $admin->id, 'group_id' => 7];
@@ -325,7 +384,9 @@ class VolunteerGroup extends Backend
         }
         if ($this->request->isPost()) {
                 $params = [];
-                $params['admin_id'] = $this->_addAdmin($row['mobile'],$row['title'],$row['area_id']);
+                $pinyin =   new \fast\Pinyin();
+                $title = $pinyin->get($row['title'],true);
+                $params['admin_id'] = $this->_addAdmin($title,$row['title'],$row['area_id']);
                 $params['has_admin']  = 1;
                 $params = $this->preExcludeFields($params);
                 $result = false;
@@ -354,8 +415,6 @@ class VolunteerGroup extends Backend
                 } else {
                     $this->error(__('No rows were updated'));
                 }
-
-
         }
 
     }
