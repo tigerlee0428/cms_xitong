@@ -299,4 +299,6 @@ class Area extends Backend
         $this->view->assign("row", $row);
         return $this->view->fetch();
     }
+
+
 }

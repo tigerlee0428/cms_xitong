@@ -85,7 +85,6 @@ class Config extends Model
         }
         return $groupList;
     }
-
     public static function getArrayData($data)
     {
         if (!isset($data['value'])) {
