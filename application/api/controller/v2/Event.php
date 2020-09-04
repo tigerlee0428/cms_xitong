@@ -81,9 +81,13 @@ class Event extends ApiCommon
         $orders     = trim(input("orders","addtime desc"));
         $page = max($page,1);
         $pagesize = $pagesize ? $pagesize : 10;
+
         $where = [
-         'tpe'       => $tpe,
+         'is_deal' =>1
         ];
+        if($tpe){
+            $where['tpe'] = $tpe;
+        }
         if($is_open !=-1){
             $where['is_open'] = $is_open;
         }
@@ -208,7 +212,6 @@ class Event extends ApiCommon
             "total" => $total
         ]);
     }
-
     /**
      * 事件详情
      * @param int $id 事件ID

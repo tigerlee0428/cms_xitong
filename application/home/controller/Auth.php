@@ -399,7 +399,6 @@ class Auth extends Api{
             $redis->hdel($sid);
 
         }
-
         if(!$redirect_url){
             exit('redirect_uri error!!');
         }
@@ -424,7 +423,6 @@ class Auth extends Api{
             $token = $result['token'];
             $redirect_url = $redirect_url.'?zyh_token='.$token;
             $this->redirect($redirect_url);
-
         }
     }
 

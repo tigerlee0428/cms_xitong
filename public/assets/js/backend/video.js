@@ -14,6 +14,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     del_url: 'video/del',
                     multi_url: 'video/multi',
                     preview_url: 'video/preview',
+                    again_url:'video/againAdd',
                     table: 'video',
                 }
             });
@@ -58,6 +59,23 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     classname: 'btn btn-xs btn-primary btn-dialog btn-preview',
                                     icon: 'fa fa-youtube-play',
                                     url: $.fn.bootstrapTable.defaults.extend.preview_url,
+                                },
+                                {
+                                    name: 'again',
+                                    text: __('Again'),
+                                    title: __('Again'),
+                                    classname: 'btn btn-xs btn-danger btn-ajax',
+                                    icon: 'fa fa-youtube-play',
+                                    url: $.fn.bootstrapTable.defaults.extend.again_url,
+                                    visible:function(row){
+                                    return true
+
+                                    },
+                                    success: function (data, ret){
+                                        if(ret.code == 1){
+                                            table.bootstrapTable('refresh');
+                                        }
+                                    }
                                 }
                             ],
                         }
@@ -94,9 +112,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'addtime', title: __('Addtime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
                         {field: 'extension', title: __('Extension')},
                         {
-                        	field: 'operate', 
-                        	title: __('Operate'), 
-                        	table: table, 
+                        	field: 'operate',
+                        	title: __('Operate'),
+                        	table: table,
                         	events: {
                                 'click .btn-chooseone': function (e, value, row, index) {
                                 	console.log(e,value,row,index)

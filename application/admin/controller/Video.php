@@ -207,6 +207,42 @@ class Video extends Backend
         }
     }
 
+    public function againAdd($ids){
+        $row = $this->model->get($ids);
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        $adminIds = $this->getDataLimitAdminIds();
+        if (is_array($adminIds)) {
+            if (!in_array($row[$this->dataLimitField], $adminIds)) {
+                $this->error(__('You have no permission'));
+            }
+        }
+
+        $postdata['callback'] = config("cvs_callback_api_url") . '/api/common/video';
+        $postdata['address'] = config("cvs_callback_api_url") . $row['address'];
+        $postdata['video_id'] = trim($ids);
+        $postdata['is_oss'] = '2';
+        $postdata['action'] = 'addVodFile';
+
+        $cvsurl = config("cvs_api_url") . '/api/v1/clients';
+        $data_string = json_encode($postdata);
+        $ch = curl_init($cvsurl);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_string))
+        );
+        $resultcvs = curl_exec($ch);
+        curl_close($ch);
+        $arrresultcvs = json_decode($resultcvs, true);
+
+        \app\common\model\Video::update(['error_info' => $arrresultcvs['error_desc'], 'status' => $arrresultcvs['status']], ['id' => $ids]);
+        $this->success();
+    }
+
     /**
      * 选择
      */

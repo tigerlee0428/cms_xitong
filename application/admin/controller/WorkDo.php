@@ -457,8 +457,7 @@ class WorkDo extends Backend
             }
         }
         $workInfo = \app\admin\model\WorkOrder::where(['id'=>$row['wid']])->find();
-
-         $log = \app\admin\model\WorkLog::where(['wdid'=> $ids])->find();
+        $log = \app\admin\model\WorkLog::where(['wdid'=> $ids])->find();
         $log['img'] = $log['img'] ? explode(',',$log['img']) : '';
         $row['img'] = $workInfo['img'] ? explode(',',$workInfo['img']) : '';
         $row['title'] = $workInfo['title'];

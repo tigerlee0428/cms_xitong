@@ -48,6 +48,9 @@ class Orders extends ApiCommon
             $lang = lang("params_not_valid");
             err(200,"params_not_valid",$lang['code'],$lang['message']);
         }
+        if(!$area_id){
+            $area_id  = $this->auth->area_id;
+        }
         $data = [
             'uid'           => $this->uid,
             'title'         => $title,

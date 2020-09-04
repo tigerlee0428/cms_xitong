@@ -35,6 +35,7 @@ class Statistics extends ApiCommon
             'place'             => cfg('place'),
             // 'station'           => $placeAreaArr ? \app\common\model\Area::where(['pid'=>['in',$placeAreaArr]])->count() : 0,
             'station'           => cfg('station'),
+            'point'             => cfg('point'),
             //'volunteer'         => \app\common\model\Volunteer::where(['is_check'=>1])->count() + 852,
             'volunteer'         => cfg('volunteer'),
             //'volunteerGroup'    => \app\common\model\VolunteerGroup::where(['is_check'=>1])->count() + 32,
@@ -253,6 +254,7 @@ class Statistics extends ApiCommon
           $redis = new \Redis();
           $redis->connect("127.0.0.1",6379);
           $Area=$redis->hget('area','areapm');
+
           if($Area){
               $Area = json_decode($Area,true);
           }else{
@@ -284,7 +286,7 @@ class Statistics extends ApiCommon
                       }
               $data = json_encode($Area);
               $redis->hset('area','areapm',$data);
-              $redis->expire('area','7200');
+              $redis->expire('area','600');
           }
       }
       ok($Area);
@@ -469,7 +471,7 @@ class Statistics extends ApiCommon
                 'id'     => $v['id'],
                 'title'  => $v['title'],
                 'address'=> $v['address'],
-                'start_time'=> format_time($v['start_time']),
+                'start_time'=> format_time(intval($v['start_time']/1000)),
                 //'thumb_images' => thumb_img($v['images']),
                 'thumb_images' => $v['thumb'],
                 'status'   => $v['status'],
@@ -516,7 +518,7 @@ class Statistics extends ApiCommon
         $data = [];
         foreach ($cateList as $k => $v){
             $num  = \app\common\model\Orders::where(['cate'=>['in',\app\common\model\Cfg::childCate($v['id'])]])->count();
-            if($v['id'] ==228){
+            if($v['id'] ==348){
             continue;
             }
             $data[] = [

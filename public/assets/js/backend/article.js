@@ -38,15 +38,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','editable'], function 
                         {field: 'tpe', title: __('Tpe'),formatter: Table.api.formatter.flag,searchList:{1:__('Tpe1'),2:__('Tpe2'),3:__('Tpe3'),4:__('Tpe4'),5:__('Tpe5'),6:__('Tpe6')},custom:{1:'success',2:'warning',3:'info',4:'danger'},},
                         {field: 'categoryName', title: __('Category'),searchable:false},
                         {field: 'areaName', title: __('Area_id'),searchable:false},
-                        {field: 'add_time', title: __('Add_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
+                        {field: 'add_time', title: __('Add_time'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,},
                         {field: 'adminName', title: __('Admin_id'),searchable:false},
                         {field: 'click_count', title: __('Click_count'),searchable:false,editable:true},
                         {field: 'is_check', title: __('CheckStatus'),formatter:checkstatus,searchable:false,},
                         {
-                        	field: 'operate', 
-                        	title: __('Operate'), 
-                        	table: table, 
-                        	events: Table.api.events.operate, 
+                        	field: 'operate',
+                        	title: __('Operate'),
+                        	table: table,
+                        	events: Table.api.events.operate,
                         	formatter: Table.api.formatter.operate,
                         	buttons:[
        			                  {
@@ -152,8 +152,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','editable'], function 
     			                    		  table.bootstrapTable('refresh');
     			                    	  }
     			                      }
-    			                  },       			                  
-    			              ],                        	
+    			                  },
+    			              ],
                         }
                     ]
                 ]
@@ -171,7 +171,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','editable'], function 
             		return __('FinalCheckPass');
             	}
             }
-            
+
             function title(value,row,index){
             	var html = '';
             	var tv = '';
@@ -201,7 +201,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','editable'], function 
             // 为表格绑定事件
             Table.api.bindevent(table);
         },
-        add: function () { 
+        add: function () {
             Controller.api.bindevent();
         },
         edit: function () {
@@ -245,7 +245,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','editable'], function 
             			$("#camera-box").hide();
             		}
             	});
-            	
+
                 Form.api.bindevent($("form[role=form]"));
             }
         }

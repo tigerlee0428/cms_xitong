@@ -17,4 +17,6 @@ return [
     'M_url'        => 'mobile播放地址',
     'Transcoding'  => '转码中',
     'Transcoding completed'  => '转码完成',
+    'Preview'      => '预览',
+    'Again'        => '重新提交'
 ];

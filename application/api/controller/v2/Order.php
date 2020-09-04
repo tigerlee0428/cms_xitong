@@ -70,9 +70,13 @@ class Order extends ApiCommon
         $page       = intval(input("page",1));
         $pagesize   = intval(input("pagesize",10));
         $orders     = trim(input("orders","id desc"));
+        $tpe        = intval(input('tpe'));
         $page = max($page,1);
         $pagesize = $pagesize ? $pagesize : 10;
         $where = ['cur_period'=>['>',0]];
+        if($tpe){
+            $where['tpe'] = $tpe;
+        }
         $orderList = \app\common\model\Order::where($where)->page($page)->limit($pagesize)->order($orders)->select();
         foreach($orderList as $k => $v){
             $list = \app\common\model\OrderPeriod::where(['id'=>$v['cur_period']])->find();
