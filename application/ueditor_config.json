@@ -90,5 +90,6 @@
         ".rar", ".zip",
         ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
     ] /* 列出的文件类型 */
-
+    ,"wordCount":true, //是否开启字数统计
+    "maximumWords":10000, //允许的最大字符数 
 }

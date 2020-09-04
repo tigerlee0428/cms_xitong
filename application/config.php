@@ -304,7 +304,8 @@ return [
         'http://localhost:8080',
         'http://localhost',
         'http://localhost:8020',
-	'http://localhost:8030',
+    'http://localhost:8030',
+    'http://localhost:8090',
 	'http://localhost:8083',
         'http://localhost:81',
         'http://localhost:82',
@@ -322,6 +323,7 @@ return [
         'http://jhpc.cst-info.cn',
         'http://jhwx.cst-info.cn',
         'http://jhcms.cst-info.cn',
+        'http://touch.kh.cst-info.cn:8000'
     ],
     
     //短信验证相关信息配置

@@ -340,6 +340,46 @@ class Auth extends Api{
     }
 
 
+    // public function mlogin(){
+    //     $token = trim(input('token'));
+    //     $access_token = trim(input('access_token'));
+    //     $redirect_url =trim(input('redirect_url'));
+    //     $redis = new \Redis();
+    //     $redis->connect("127.0.0.1",6379);
+    //     $sid = _ua_key();
+    //     if(!$redis->exists($sid)){
+    //         $redis->hset($sid,'redirect_url',$redirect_url);
+    //         $redis->hset($sid,'access_token',$access_token);
+    //     }else{
+    //         $redirect_url =  $redis->hget($sid,'redirect_url');
+    //         $access_token =  $redis->hget($sid,'access_token');
+    //         $redis->hdel($sid);
+
+    //     }
+    //     if(!$redirect_url){
+    //         exit('redirect_uri error!!');
+    //     }
+    //     $user = Token::get($access_token);
+    //     $openid = User::where(['id'=>$user['user_id']])->value('openid');
+    //     if($token){
+    //         User::update(['is_volunteer'=>1],['id'=>$this->auth->id]);
+    //         $redirect_url = $redirect_url.'?zyh_token='.$token;
+    //         $this->redirect($redirect_url);
+    //     }
+    //     $zyh = new \fast\ZyhResource();
+    //     $apiFun = '/api/userCenter/loginByOpenId'; //访问方法
+    //     $apiParam = array('openid'=>$openid);//访问参数
+    //     $result = $zyh::getData($apiFun, $apiParam);
+    //     if($result['errCode'] == '0009'){
+    //             $callbackurl = 'http://cms.kh.cst-info.cn:8000/home/auth/mlogin/access_token/'.$access_token;
+    //             $url = 'http://47.99.112.147:8080/webproject/usercenter/login?callbackurl='.$callbackurl.'&openid='.$openid;
+    //             $this->redirect($url);
+    //     }else{
+    //         $token = $result['token'];
+    //         $redirect_url = $redirect_url.'?zyh_token='.$token;
+    //         $this->redirect($redirect_url);
+    //     }
+    // }
     public function mlogin(){
         $token = trim(input('token'));
         $access_token = trim(input('access_token'));
@@ -347,22 +387,25 @@ class Auth extends Api{
         $redis = new \Redis();
         $redis->connect("127.0.0.1",6379);
         $sid = _ua_key();
-        if(!$redis->exists($sid)){
+        if(!$redirect_url){
+           if(!$redis->exists($sid)){
             $redis->hset($sid,'redirect_url',$redirect_url);
             $redis->hset($sid,'access_token',$access_token);
         }else{
             $redirect_url =  $redis->hget($sid,'redirect_url');
             $access_token =  $redis->hget($sid,'access_token');
-            $redis->hdel($sid);
-
+            $redis->hdel($sid,'redirect_url');
+            $redis->hdel($sid,'access_token');
         }
+        }
+
         if(!$redirect_url){
             exit('redirect_uri error!!');
         }
         $user = Token::get($access_token);
         $openid = User::where(['id'=>$user['user_id']])->value('openid');
         if($token){
-            User::update(['is_volunteer'=>1],['id'=>$this->auth->id]);
+            User::update(['is_volunteer'=>1],['id'=>$user['user_id']]);
             $redirect_url = $redirect_url.'?zyh_token='.$token;
             $this->redirect($redirect_url);
         }
@@ -372,9 +415,10 @@ class Auth extends Api{
         $result = $zyh::getData($apiFun, $apiParam);
         if($result['errCode'] == '0009'){
                 $callbackurl = 'http://cms.kh.cst-info.cn:8000/home/auth/mlogin/access_token/'.$access_token;
-                $url = 'http://47.99.112.147:8080/webproject/usercenter/login?callbackurl='.$callbackurl.'&openid='.$openid;
+                $url = 'https://m2.zyh365.com/webproject/usercenter/login?callbackurl='.$callbackurl.'&openid='.$openid;
                 $this->redirect($url);
         }else{
+            User::update(['is_volunteer'=>1],['id'=>$user['user_id']]);
             $token = $result['token'];
             $redirect_url = $redirect_url.'?zyh_token='.$token;
             $this->redirect($redirect_url);
@@ -383,6 +427,51 @@ class Auth extends Api{
 
 
 
+    // public function pclogin(){
+    //     $token = trim(input('token'));
+    //     $access_token= trim(input('access_token'));
+    //     $redirect_url =trim(input('redirect_url'));
+    //     $redis = new \Redis();
+    //     $redis->connect("127.0.0.1",6379);
+    //     $sid = _ua_key();
+    //     if(!$redis->exists($sid)){
+    //         $redis->hset($sid,'redirect_url',$redirect_url);
+    //         $redis->hset($sid,'access_token',$access_token);
+    //     }else{
+    //         $redirect_url =  $redis->hget($sid,'redirect_url');
+    //         $access_token =  $redis->hget($sid,'access_token');
+    //         $redis->hdel($sid);
+
+    //     }
+
+    //     if(!$redirect_url){
+    //         exit('redirect_uri error!!');
+    //     }
+    //     $user = Token::get($access_token);
+    //     $openid = User::where(['id'=>$user['user_id']])->value('openid');
+    //     $zyh = new \fast\ZyhResource();
+    //     $apiFun = '/api/userCenter/loginByOpenId'; //访问方法
+    //     $apiParam = array('openid'=>$openid);//访问参数
+    //     $result = $zyh::getData($apiFun, $apiParam);
+    //     if($token){
+    //         User::update(['is_volunteer'=>1],['id'=>$user['user_id']]);
+    //         $redirect_url = $redirect_url.'?zyh_token='.$token;
+    //         $this->_binding($openid,$token);
+    //         $this->redirect($redirect_url);
+
+    //     }
+    //     if($result['errCode'] == '0009'){
+    //         $callbackurl = 'http://cms.kh.cst-info.cn:8000/home/auth/pclogin/access_token/'.$access_token.'/redirect_url/'.$redirect_url;
+    //         $url = 'http://47.99.112.147:8080/webproject/usercenter/pc/login?callbackurl='.urlencode($callbackurl);
+    //         $this->redirect($url);
+
+    //     }else{
+    //         $token = $result['token'];
+    //         $redirect_url = $redirect_url.'?zyh_token='.$token;
+    //         $this->redirect($redirect_url);
+
+    //     }
+    // }
     public function pclogin(){
         $token = trim(input('token'));
         $access_token= trim(input('access_token'));
@@ -390,15 +479,20 @@ class Auth extends Api{
         $redis = new \Redis();
         $redis->connect("127.0.0.1",6379);
         $sid = _ua_key();
-        if(!$redis->exists($sid)){
+        if(!$redirect_url){
+             if(!$redis->exists($sid)){
             $redis->hset($sid,'redirect_url',$redirect_url);
             $redis->hset($sid,'access_token',$access_token);
         }else{
             $redirect_url =  $redis->hget($sid,'redirect_url');
             $access_token =  $redis->hget($sid,'access_token');
-            $redis->hdel($sid);
+            $redis->hdel($sid,'redirect_url');
+            $redis->hdel($sid,'access_token');
 
+            }
         }
+
+
         if(!$redirect_url){
             exit('redirect_uri error!!');
         }
@@ -416,15 +510,17 @@ class Auth extends Api{
         }
         if($result['errCode'] == '0009'){
             $callbackurl = 'http://cms.kh.cst-info.cn:8000/home/auth/pclogin';
-            $url = 'http://47.99.112.147:8080/webproject/usercenter/pc/login?callbackurl='.urlencode($callbackurl);
+            $url = 'https://m2.zyh365.com/webproject/usercenter/pc/login?callbackurl='.urlencode($callbackurl);
             $this->redirect($url);
 
         }else{
             $token = $result['token'];
             $redirect_url = $redirect_url.'?zyh_token='.$token;
             $this->redirect($redirect_url);
+
         }
     }
+
 
 
     private function _binding($openid,$token){
